@@ -14,7 +14,9 @@ bin_PROGRAMS = dungeon_test
 dungeon_test_SOURCES = \
 	main.c \
 	tunneler.h \
-	tunneler.c
+	tunneler.c \
+	queue.c \
+	queue.h
 
 dungeon_test_LDFLAGS = 
 
