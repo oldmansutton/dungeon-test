@@ -12,7 +12,9 @@ AM_CFLAGS =\
 bin_PROGRAMS = dungeon_test
 
 dungeon_test_SOURCES = \
-	main.c
+	main.c \
+	tunneler.h \
+	tunneler.c
 
 dungeon_test_LDFLAGS = 
 
