@@ -8,7 +8,7 @@ Shortcut=dungeon-test//dungeon_test
 Expand=dungeon_test%%%dungeon-test%%%dungeon-test//dungeon_test
 
 [File Loader]
-Files=../../main.c#23%%%../../tunneler.h#1
+Files=../../main.c#59%%%../../tunneler.h#35%%%../../tunneler.c#21%%%../../queue.h#36%%%../../queue.c#44
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n

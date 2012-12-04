@@ -54,9 +54,9 @@ void initmap(void)  /* Initialize the map */
 int main()
 {
 	int ii = 0;
-	Tunneler *pTunneler;
-	TunnelerQueue *queueTunneler;
-	TunnelerQueue *queueList;
+	tunneler *pTunneler;
+	tunnelerQueue *queueTunneler;
+	tunnelerQueue *queueList;
 	
 	srand(time(NULL));
 

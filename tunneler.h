@@ -30,8 +30,8 @@ typedef struct
 	int tunnelerSpawn;
 	int roomerSpawn;
 	int builderSpawn;
-} Tunneler;
+} tunneler;
 	
-extern void tunneler_rand(Tunneler *inTunneler);
+extern void tunneler_rand(tunneler *inTunneler);
 
 #endif 

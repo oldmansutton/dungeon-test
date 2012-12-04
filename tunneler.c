@@ -18,7 +18,7 @@
 #include <stdlib.h>
 #include "tunneler.h"
 
-void tunneler_rand(Tunneler *inTunneler)
+void tunneler_rand(tunneler *inTunneler)
 {
 	int r;
 	int d;	

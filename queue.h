@@ -18,12 +18,23 @@
 #ifndef QUEUE_H
 #define QUEUE_H
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "tunneler.h"
 
-typedef struct 
+typedef struct
 {
-	Tunneler *qTunneler;
-	TunnelerQueue *next;
-} TunnelerQueue;
-	
+	tunneler *population; 
+	int head;
+	int tail;
+	int size;
+	int maxSize;
+} tunnelerQueue;
+
+extern tunnelerQueue *newTQueue(int s);
+extern void dieTQueue(tunnelerQueue *q);
+extern void addTunnelerTQueue(tunnelerQueue *q, tunneler *newT);
+
+
+
 #endif 

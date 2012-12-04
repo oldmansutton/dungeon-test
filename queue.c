@@ -14,3 +14,37 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+#include "queue.h"
+
+tunnelerQueue *newTQueue(int s)
+{
+	tunnelerQueue *q = (tunnelerQueue*)malloc(sizeof(tunnelerQueue));
+	q->population = (tunneler*)malloc(sizeof(tunneler));
+	q->head = 0;
+	q->tail = 0;
+	q->size = 0;
+	q->maxSize = s;
+	return q;
+}
+
+void dieTQueue (tunnelerQueue *q)
+{
+	free(q->population);
+	free(q);
+}
+
+void addTunnelerTQueue(tunnelerQueue *q, tunneler *newT)
+{
+	if (q->size + 1 <= q->maxSize)
+	{
+		q->size++;
+		q->tail++;
+		q->population = (tunneler*)realloc(q->population,sizeof(tunneler) * q->size);
+		q->population[q->tail - 1] = newT;
+		
+	
+	
+	
+	
+
