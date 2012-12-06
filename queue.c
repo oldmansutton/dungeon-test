@@ -20,9 +20,9 @@
 tunnelerQueue *newTQueue(int s)
 {
 	tunnelerQueue *q = (tunnelerQueue*)malloc(sizeof(tunnelerQueue));
-	q->population = (tunneler*)malloc(sizeof(tunneler));
-	q->head = 0;
-	q->tail = 0;
+	q->head = (tunneler*)malloc(sizeof(tunneler));
+	q->tail = (tunneler*)malloc(sizeof(tunneler));
+	q->queueList = (tunnelerNode*)malloc(sizeof(tunnelerNode));
 	q->size = 0;
 	q->maxSize = s;
 	return q;

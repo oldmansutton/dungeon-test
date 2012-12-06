@@ -24,9 +24,14 @@
 
 typedef struct
 {
-	tunneler *population; 
-	int head;
-	int tail;
+	tunneler *node;
+	tunneler *nextNode;
+} tunnelerNode;
+
+typedef struct
+{
+	tunneler *head, *tail;
+	tunnelerNode *queueList;
 	int size;
 	int maxSize;
 } tunnelerQueue;
