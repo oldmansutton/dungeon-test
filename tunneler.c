@@ -18,11 +18,13 @@
 #include <stdlib.h>
 #include "tunneler.h"
 
-void tunneler_rand(tunneler *inTunneler)
+void tunneler_rand(tunneler *inTunneler, int nm)
 {
 	int r;
 	int d;	
 
+	inTunneler->name = nm;
+	
 	inTunneler->xDir = 0;
  	inTunneler->yDir = 0;
 
@@ -47,8 +49,8 @@ void tunneler_rand(tunneler *inTunneler)
 
 	inTunneler->lifetime = rand() % 80;
 	inTunneler->age = 0;
-	inTunneler->turnChance = rand() % 6;
-	inTunneler->tunnelerSpawn = rand() % 33;
+	inTunneler->turnChance = rand() % 10;
+	inTunneler->tunnelerSpawn = rand() % 60;
 	inTunneler->roomerSpawn = rand() % 100;
 	inTunneler->builderSpawn = rand() % 100;
 }

@@ -24,21 +24,16 @@
 
 typedef struct
 {
-	tunneler *node;
-	tunneler *nextNode;
-} tunnelerNode;
-
-typedef struct
-{
-	tunneler *head, *tail;
-	tunnelerNode *queueList;
+	int tail;
+	tunneler *population;
 	int size;
 	int maxSize;
 } tunnelerQueue;
 
 extern tunnelerQueue *newTQueue(int s);
 extern void dieTQueue(tunnelerQueue *q);
-extern void addTunnelerTQueue(tunnelerQueue *q, tunneler *newT);
+extern void pushTunnelerTQueue(tunnelerQueue *q, tunneler *newT);
+extern tunneler popTunnelerTQueue(tunnelerQueue *q);
 
 
 

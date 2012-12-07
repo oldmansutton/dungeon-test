@@ -15,14 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+#include <stdio.h>
 #include "queue.h"
 
 tunnelerQueue *newTQueue(int s)
 {
 	tunnelerQueue *q = (tunnelerQueue*)malloc(sizeof(tunnelerQueue));
-	q->head = (tunneler*)malloc(sizeof(tunneler));
-	q->tail = (tunneler*)malloc(sizeof(tunneler));
-	q->queueList = (tunnelerNode*)malloc(sizeof(tunnelerNode));
+	q->population = (tunneler*)malloc(sizeof(tunneler) * s);
 	q->size = 0;
 	q->maxSize = s;
 	return q;
@@ -30,18 +29,41 @@ tunnelerQueue *newTQueue(int s)
 
 void dieTQueue (tunnelerQueue *q)
 {
+	puts("Removing queue\n");
 	free(q->population);
 	free(q);
 }
 
-void addTunnelerTQueue(tunnelerQueue *q, tunneler *newT)
+void pushTunnelerTQueue(tunnelerQueue *q, tunneler *newT)
 {
 	if (q->size + 1 <= q->maxSize)
 	{
+		q->population[q->size] = *newT;
 		q->size++;
-		q->tail++;
-		q->population = (tunneler*)realloc(q->population,sizeof(tunneler) * q->size);
-		q->population[q->tail - 1] = newT;
+	} else {
+		/* Queue is full, do nothing */
+	}
+}
+
+tunneler popTunnelerTQueue(tunnelerQueue *q)
+{
+	tunneler rtn;
+	if (q->population != NULL && q->size > 0)
+	{
+		rtn = q->population[0];
+		int i;
+		for (i = 0; i < q->size; i++)
+		{
+			q->population[i] = q->population[i + 1];
+		}
+		q->size--;
+	}
+	return rtn;
+}
+			
+			
+		
+		
 		
 	
 	
