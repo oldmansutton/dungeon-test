@@ -78,15 +78,15 @@ int main()
 	
 	srand(time(NULL));
 
-	size_x = 32;
-	size_y = 32;
+	size_x = 64;
+	size_y = 64;
 
 	initmap();
 
 	pTunneler = malloc(sizeof(tunneler));
 	tunneler_rand(pTunneler,1);
-	pTunneler->xCoord = 16;
-	pTunneler->yCoord = 16;
+	pTunneler->xCoord = 32;
+	pTunneler->yCoord = 32;
 
 	queueTunneler = newTQueue(50);
 	if (queueTunneler == 0)
@@ -168,6 +168,26 @@ int main()
 					newname++;
 					temp->xCoord = pTunneler->xCoord;
 					temp->yCoord = pTunneler->yCoord;
+
+					int dp = rand() % 100;
+					temp->xDir = 0;
+					temp->yDir = 0;
+					if (pTunneler->xDir == 0)
+					{
+						if (dp < 50)
+						{
+							temp->xDir = -1;
+						} else {
+							temp->xDir = 1;
+						}
+					} else {
+						if (dp < 50)
+						{
+							temp->yDir = -1;
+						} else {
+							temp->yDir = 1;
+						}
+					}
 					pushTunnelerTQueue(queueTunneler, temp);
 					free(temp);
 					printf("Size of queue is %i\n",queueTunneler->size);
@@ -186,7 +206,7 @@ int main()
 		}
 	}
 	free(pTunneler);
-	dieTQueue (queueTunneler);
+	dieTQueue(queueTunneler);
 	printmap();
 	return (0);
 }
