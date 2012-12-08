@@ -16,7 +16,9 @@ dungeon_test_SOURCES = \
 	tunneler.h \
 	tunneler.c \
 	queue.c \
-	queue.h
+	queue.h \
+	roomer.c \
+	roomer.h
 
 dungeon_test_LDFLAGS = 
 

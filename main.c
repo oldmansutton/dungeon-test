@@ -20,11 +20,19 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "tunneler.h"
+#include "roomer.h"
 #include "queue.h"
 
 #define TILE_FLOOR 0
 #define TILE_WALL 1
+#define TILE_DOOR 2
+#define X_LEFT -1
+#define X_RIGHT 1
+#define Y_UP -1
+#define Y_DOWN 1
+
 
 /* Global Variables */
 int **map;
@@ -63,6 +71,7 @@ void printmap(void)
 			{
 				case TILE_WALL:  putchar('#'); break;
 				case TILE_FLOOR: putchar('.'); break;
+				case TILE_DOOR:	  putchar('D'); break;
 			}
 		}
         putchar('\n');
@@ -85,8 +94,11 @@ int main()
 
 	pTunneler = malloc(sizeof(tunneler));
 	tunneler_rand(pTunneler,1);
+	pTunneler->xDir = 0;
+	pTunneler->yDir = 1;
 	pTunneler->xCoord = 32;
 	pTunneler->yCoord = 32;
+	pTunneler->roomerSpawn = 100;
 
 	queueTunneler = newTQueue(50);
 	if (queueTunneler == 0)
@@ -117,6 +129,7 @@ int main()
 		printf("x: %i / y: %i / xdir: %i / ydir: %i\n",x,y,xdir,ydir);
 		printf("age: %i / lifetime: %i / Tile: %i\n",pTunneler->age,pTunneler->lifetime,map[x+xdir][y+ydir]);
 		
+
 		if (x + xdir > 0 && x + xdir < size_x - 1 && 
 		    y + ydir > 0 && y + ydir < size_y - 1 &&
 		    map[x+xdir][y+ydir] == TILE_WALL)
@@ -136,11 +149,115 @@ int main()
 				map[x + xdir][y + ydir] = TILE_FLOOR;
 				pTunneler->xCoord = x + xdir;
 				pTunneler->yCoord = y + ydir;
+				/* Check if spawning a roomer, and try to spawn room */
+				if (rand() % 100 <= pTunneler->roomerSpawn)
+				{
+					puts("Spawning ROOMER\n");
+
+					int dp = rand() % 100;
+
+					int dirx = 0;
+					int diry = 0;
+					
+					if (pTunneler->xDir == 0)
+					{
+						if (dp < 50)
+						{
+							dirx = -1;
+						} else {
+							dirx = 1;
+						}
+					} else {
+						if (dp < 50)
+						{
+							diry = -1;
+						} else {
+							diry = 1;
+						}
+					}
+
+					int dx, dy;
+					dx = pTunneler->xCoord + dirx;
+					dy = pTunneler->yCoord + diry;
+
+					int rdie = 0;
+					if (dx < 1 || dx > size_x - 1 || dy < 1 || dy > size_y - 1)
+					{
+						rdie = 1;
+					}
+					if (rdie == 0 && map[dx][dy] == TILE_WALL)
+					{
+						puts("Valid door\n");
+						roomer *roomsp;
+						roomsp = (roomer*)malloc(sizeof(roomer));
+						newRoomer(roomsp,dx,dy,dirx,diry);
+						printf("Room dimensions %ix%i\nDoor @ %ix%i\n",roomsp->dimX,roomsp->dimY,dx,dy);
+						int i_bnd; 
+						int chk_bnd;
+						if (dirx != 0) 
+						{
+							chk_bnd = roomsp->dimY;
+						} else {
+							chk_bnd = roomsp->dimX;
+						}
+						int validRoom = 1;
+						for (i_bnd = 0; i_bnd < chk_bnd; i_bnd++)
+						{
+							roomCorners *crn = get_RoomCorners(roomsp,abs(diry) * i_bnd, abs(dirx) * i_bnd);
+							validRoom = 1;
+							printf("Room upper left: %ix%i\n",crn->x_ul,crn->y_ul);
+							printf("Room bottom right: %ix%i\n",crn->x_br,crn->y_br);
+							
+							if (crn->x_ul <= 0 || crn->x_ul >= size_x - 1 || crn->y_ul <= 0 || crn->y_ul >= size_y - 1) validRoom = 0;
+							if (crn->x_ur <= 0 || crn->x_ur >= size_x - 1 || crn->y_ur <= 0 || crn->y_ur >= size_y - 1) validRoom = 0;
+							if (crn->x_bl <= 0 || crn->x_bl >= size_x - 1 || crn->y_bl <= 0 || crn->y_bl >= size_y - 1) validRoom = 0;
+							if (crn->x_br <= 0 || crn->x_br >= size_x - 1 || crn->y_br <= 0 || crn->y_br >= size_y - 1) validRoom = 0;
+							if (validRoom == 1)
+							{
+								int ixcollide, iycollide;
+								for (ixcollide = crn->x_ul-1; ixcollide <= crn->x_br+1; ixcollide++)
+								{
+									for (iycollide = crn->y_ul-1; iycollide <= crn->y_br+1; iycollide++)
+									{
+										if (map[ixcollide][iycollide] != TILE_WALL)
+										{
+											validRoom = 0;
+											ixcollide = size_x;
+											iycollide = size_y;
+										}
+									}
+								}
+							} else {
+								puts("Room outside bounds\n");
+							}
+							if (validRoom == 1)
+							{
+								puts("Room valid!! Digging Room!\n");
+								int ixdig, iydig;
+								for (ixdig = crn->x_ul; ixdig <= crn->x_br; ixdig++)
+								{
+									for (iydig = crn->y_ul; iydig <= crn->y_br; iydig++)
+									{
+										map[ixdig][iydig] = TILE_FLOOR;
+									}
+								}
+								map[roomsp->doorX][roomsp->doorY] = TILE_DOOR;
+								i_bnd = chk_bnd + 1;
+							} else {
+								puts("Room intersects tunnels\n");
+							}
+							free(crn);
+						}
+						free(roomsp);
+					} else {
+						puts("Can't place room's door\n");
+					}
+				}
 				/* See if tunneler will change directions */
 				if (rand() % 100 <= pTunneler->turnChance)
 				{
 					puts("Changing direction\n");
-					if (pTunneler->yDir != 0)
+					if (pTunneler->xDir == 0)
 					{
 						pTunneler->yDir = 0;
 						if (rand() % 100 < 50)

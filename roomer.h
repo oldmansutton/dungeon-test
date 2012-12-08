@@ -1,4 +1,4 @@
-// tunneler.c
+// roomer.h
 //
 // Copyright (C) 2012 - Ryan Sutton
 //
@@ -15,42 +15,33 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#include <stdlib.h>
-#include "tunneler.h"
+#ifndef ROOMER_H
+#define ROOMER_H
 
-void tunneler_rand(tunneler *inTunneler, int nm)
+#define ROOM_MIN 3
+#define ROOM_MAX 6
+
+
+typedef struct
 {
-	int r;
-	int d;	
+	int xDir;
+	int yDir;
+	int doorX;
+	int doorY;
+	int dimX;
+	int dimY;
+} roomer;
 
-	inTunneler->name = nm;
-	
-	inTunneler->xDir = 0;
- 	inTunneler->yDir = 0;
+typedef struct
+{
+	int x_ul,y_ul;
+	int x_ur,y_ur;
+	int x_bl,y_bl;
+	int x_br,y_br;
+} roomCorners;
 
-	r = rand() % 100;
-	d = rand() % 100;
-	if (r < 50)
-	{
-		if (d < 50)
-		{
-			inTunneler->xDir = -1;
-		} else {
-			inTunneler->xDir = 1;
-		}
-	} else {
-		if (d < 50)
-		{
-			inTunneler->yDir = -1;
-		} else {
-			inTunneler->yDir = 1;
-		}
-	}
+extern void newRoomer(roomer *room, int x, int y, int xdir, int ydir);
 
-	inTunneler->lifetime = rand() % 80;
-	inTunneler->age = 0;
-	inTunneler->turnChance = rand() % 20;
-	inTunneler->tunnelerSpawn = rand() % 33;
-	inTunneler->roomerSpawn = rand() % 33;
-	inTunneler->builderSpawn = rand() % 100;
-}
+extern roomCorners *get_RoomCorners(roomer *room, int offset_x, int offset_y);
+
+#endif
