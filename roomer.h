@@ -19,7 +19,7 @@
 #define ROOMER_H
 
 #define ROOM_MIN 3
-#define ROOM_MAX 6
+#define ROOM_MAX 8
 
 
 typedef struct

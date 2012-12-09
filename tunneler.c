@@ -47,10 +47,11 @@ void tunneler_rand(tunneler *inTunneler, int nm)
 		}
 	}
 
-	inTunneler->lifetime = rand() % 80;
+	inTunneler->lifetime = (rand() % (80 + 1 - 50)) + 50;
 	inTunneler->age = 0;
-	inTunneler->turnChance = rand() % 20;
-	inTunneler->tunnelerSpawn = rand() % 33;
-	inTunneler->roomerSpawn = rand() % 33;
+	inTunneler->turnChance = (rand() % (25 + 1 - 5)) + 5;
+	inTunneler->tunnelerSpawn = (rand() % (33 + 1 - 10)) + 10;
+	inTunneler->roomerSpawn = (rand() % (33 + 1 - 10)) + 10;
 	inTunneler->builderSpawn = rand() % 100;
+	inTunneler->neatness = (rand() % (NEATNESS_MAX + 1 - NEATNESS_MIN)) + NEATNESS_MIN;
 }

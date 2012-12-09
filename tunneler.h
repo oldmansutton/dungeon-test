@@ -18,6 +18,9 @@
 #ifndef TUNNELER_H
 #define TUNNELER_H
 
+#define NEATNESS_MIN 2
+#define NEATNESS_MAX 6
+
 typedef struct 
 {
 	int name;
@@ -31,6 +34,7 @@ typedef struct
 	int tunnelerSpawn;
 	int roomerSpawn;
 	int builderSpawn;
+	int neatness;
 } tunneler;
 	
 extern void tunneler_rand(tunneler *inTunneler, int nm);

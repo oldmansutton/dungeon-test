@@ -35,8 +35,6 @@ roomCorners *get_RoomCorners(roomer *room, int offset_x, int offset_y)
 
 	int top, bottom, left, right;
 
-	printf("Room xdir: %i / Room ydir: %i\n",room->xDir,room->yDir);
-	printf("offset_x: %i / offset_y: %i\n",offset_x,offset_y);
 	if (room->yDir == 0)
 	{
 		if (room->xDir < 0)
@@ -50,7 +48,6 @@ roomCorners *get_RoomCorners(roomer *room, int offset_x, int offset_y)
 		top = room->doorY - room->dimY + offset_y;
 		bottom = room->doorY + offset_y;
 	} else {
-		int top, bottom;
 		if (room->yDir < 0)
 		{
 			top = room->doorY - room->dimY - 1;
