@@ -25,10 +25,6 @@
 #include "roomer.h"
 #include "queue.h"
 
-#define TILE_FLOOR 0
-#define TILE_WALL 1
-#define TILE_DOOR 2
-#define TILE_ROOM 3
 #define X_LEFT -1
 #define X_RIGHT 1
 #define Y_UP -1
@@ -74,7 +70,7 @@ void printmap(void)
 				case TILE_WALL:  putchar('#'); break;
 				case TILE_ROOM:
 				case TILE_FLOOR: putchar('.'); break;
-				case TILE_DOOR:	  putchar('D'); break;
+				case TILE_DOOR:	  putchar('+'); break;
 			}
 		}
         putchar('\n');
@@ -90,7 +86,7 @@ int main()
 	srand(time(NULL));
 
 	size_x = 64;
-	size_y = 64;
+	size_y = 90;
 
 	initmap();
 
@@ -99,7 +95,7 @@ int main()
 	pTunneler->xDir = 0;
 	pTunneler->yDir = 1;
 	pTunneler->xCoord = 32;
-	pTunneler->yCoord = 32;
+	pTunneler->yCoord = 45;
 	pTunneler->roomerSpawn = 100;
 
 	queueTunneler = newTQueue(50);
@@ -113,25 +109,20 @@ int main()
 	int x,y,xdir,ydir;
 
 	int newname = 2;
-	printf("Size of queue is %i\n",queueTunneler->size);
 
 	int qIterate = 0;
 
 	cntDug = 0;
 	
-	while (queueTunneler->size > 0 && qIterate < 1500)
+	while (queueTunneler->size > 0 && qIterate < 2500)
 	{
 		qIterate++;
 		/* sleep(2); */
 		*pTunneler = popTunnelerTQueue(queueTunneler);
-   		printf("Size of queue is %i\n",queueTunneler->size);
 		x = pTunneler->xCoord;
 		y = pTunneler->yCoord;
 		xdir = pTunneler->xDir;
 		ydir = pTunneler->yDir;
-		printf("**NAME** %i\n",pTunneler->name);
-		printf("x: %i / y: %i / xdir: %i / ydir: %i\n",x,y,xdir,ydir);
-		printf("age: %i / lifetime: %i / Tile: %i\n",pTunneler->age,pTunneler->lifetime,map[x+xdir][y+ydir]);
 
 		int validMove = 1;
 	
@@ -191,7 +182,6 @@ int main()
 		if (x + xdir > 0 && x + xdir < size_x - 1 && y + ydir > 0 && y + ydir < size_y - 1 &&
 		    validMove == 1)
 		{
-			puts("Tunneling\n");
 			map[x + xdir][y + ydir] = TILE_FLOOR;
 			cntDug++;
 			pTunneler->xCoord = x + xdir;
@@ -199,7 +189,6 @@ int main()
 			/* Check if spawning a roomer, and try to spawn room */
 			if (rand() % 100 <= pTunneler->roomerSpawn)
 			{				
-				puts("Spawning ROOMER\n");
 				int dp;
 				dp = rand() % 100;
 				int dirx = 0;
@@ -232,7 +221,6 @@ int main()
 				}
 				if (validDoor == 1 && map[dx][dy] == TILE_WALL)
 				{
-					puts("Valid door\n");
 					roomer *roomsp;
 					roomsp = (roomer*)malloc(sizeof(roomer));
 					newRoomer(roomsp,dx,dy,dirx,diry);
@@ -270,12 +258,9 @@ int main()
 									}
 								}
 							}
-						} else {
-							puts("Room outside bounds\n");
 						}
 						if (validRoom == 1)
 						{
-							puts("Room valid!! Digging Room!\n");
 							int ixdig, iydig;
 							for (ixdig = crn->x_ul; ixdig <= crn->x_br; ixdig++)
 							{
@@ -287,20 +272,15 @@ int main()
 							}
 							map[roomsp->doorX][roomsp->doorY] = TILE_DOOR;
 							i_bnd = chk_bnd + 1;
-						} else {
-							puts("Room intersects tunnels\n");
 						}
 						free(crn);
 					}
 					free(roomsp);
-				} else {
-					puts("Can't place room's door\n");
 				}
 			}
 			/* See if tunneler will change directions */
 			if (rand() % 100 <= pTunneler->turnChance)
 			{
-				puts("Changing direction\n");
 				if (pTunneler->xDir == 0)
 				{
 					pTunneler->yDir = 0;
@@ -323,7 +303,6 @@ int main()
 			/* See if tunneler will spawn a child tunneler */
 			if (rand() % 100 <= pTunneler->tunnelerSpawn)
 			{
-				puts("Spawning new tunneler\n");
 				tunneler *temp = (tunneler*)malloc(sizeof(tunneler));
 				tunneler_rand(temp,newname);
 				newname++;
@@ -350,20 +329,14 @@ int main()
 				}
 				pushTunnelerTQueue(queueTunneler, temp);
 				free(temp);
-				printf("Size of queue is %i\n",queueTunneler->size);
 			}
 			if (pTunneler->age < pTunneler->lifetime)
 			{
 				pTunneler->age++;
 				pushTunnelerTQueue (queueTunneler, pTunneler);
-				printf("Size of queue is %i\n",queueTunneler->size);
-			} else {
-				puts("Tunneler dying - old age\n");
 			}
-		} else {
-			puts("Tunneler dying - map boundary or next tile in line is floor\n");
 		}
-		if ((queueTunneler->size == 0 || qIterate >= 1500) && cntDug < (int)((size_x * size_y) * 0.35))
+		if ((queueTunneler->size == 0 || qIterate >= 2500) && cntDug < (int)((size_x * size_y) * 0.35))
 		{
 			int xi;
 			for (xi = 0; xi < size_x; xi++)
@@ -376,7 +349,7 @@ int main()
 			qIterate = 0;
 			tunneler_rand(pTunneler,1);
 			pTunneler->xCoord = (rand() % (36 + 1 - 28)) + 28;
-			pTunneler->yCoord = (rand() % (36 + 1 - 28)) + 28;
+			pTunneler->yCoord = (rand() % (50 + 1 - 40)) + 40;
 			newname = 2;
 			pushTunnelerTQueue (queueTunneler, pTunneler);
 		}

@@ -1,0 +1,28 @@
+#!/bin/bash
+
+COUNT=1
+echo "Processing input file..."
+while read FLINE
+do
+	CMD="montage -tile 90x1 -geometry 6x6+0+0 "
+	for I in $(seq 0 $(expr length "${FLINE}")); do
+		[ "${FLINE:$I:1}" == '#' ] && CMD+="mini_wall.png " || :
+		[ "${FLINE:$I:1}" == '.' ] && CMD+="mini_floor.png " || :
+		[ "${FLINE:$I:1}" == '+' ] && CMD+="mini_door.png " || :
+	done
+	CMD+="maprow$COUNT.png"
+	$CMD
+	((COUNT++))
+done < map.txt
+CMD="montage -tile 1x64 -geometry 540x6 "
+CNT=$(( COUNT - 1 ))
+for I in $(seq 1 $CNT)
+do
+	CMD+="maprow$I.png "
+done
+CMD+="minimap.png"
+echo "Exporting dungeon..."
+$CMD
+CMD="rm maprow*.png"
+$CMD
+echo "Done!"

@@ -29,7 +29,6 @@ tunnelerQueue *newTQueue(int s)
 
 void dieTQueue (tunnelerQueue *q)
 {
-	puts("Removing queue\n");
 	free(q->population);
 	free(q);
 }
