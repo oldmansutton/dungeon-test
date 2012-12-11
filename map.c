@@ -34,6 +34,8 @@ map *initmap(void)  /* Initialize the map */
 			newmap[MAP_XY].Lit = false;
 		}
 	}
+
+	return newmap;
 }
 
 void printmap(map *pmap)
@@ -55,3 +57,32 @@ void printmap(map *pmap)
         putchar('\n');
 	}
 }
+
+tileDefs *init_TileDefs(void)
+{
+	tileDefs *TD = (tileDefs*)malloc(sizeof(tileDefs) * TILE_COUNT);
+	int i;
+	for (i = 0; i < TILE_COUNT; i++)
+	{
+		switch(i)
+		{
+			case 0:	TD[i].Name = "Floor";
+					TD[i].Walkable = true;
+					TD[i].Permanent = true;
+					break;
+			case 1:	TD[i].Name = "Wall";
+					TD[i].Walkable = false;
+					TD[i].Permanent = true;
+					break;
+			case 2:	TD[i].Name = "Door";
+					TD[i].Walkable = true;
+					TD[i].Permanent = false;
+					break;
+			case 3:	TD[i].Name = "Room Floor";
+					TD[i].Walkable = true;
+					TD[i].Permanent = true;
+					break;
+		}
+	}
+}
+

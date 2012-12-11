@@ -21,6 +21,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include "map.h"
 #include "tunneler.h"
 #include "roomer.h"
 #include "queue.h"
@@ -36,50 +37,11 @@ int **map;
 int size_x, size_y;
 int cntDug;
 
-void initmap(void)  /* Initialize the map */
-{
-	int xi, yi;
-
-	/* Allocate memory for multidimensional map array */
-	map = (int**)malloc(sizeof(int*) * size_x);
-	for (xi = 0; xi < size_x; xi++)
-	{
-		map[xi] = (int*)malloc(sizeof(int) * size_y);
-	}
-
-	/* Fill map grid with "WALL" tiles */
-	for (xi = 0; xi < size_x; xi++)
-	{
-		for (yi = 0; yi < size_y; yi++)
-		{
-			map[xi][yi] = TILE_WALL;
-		}
-	}
-}
-
-void printmap(void)
-{
-	int xi, yi;
-
-	for(xi = 0; xi < size_x; xi++)
-	{
-		for(yi = 0; yi < size_y; yi++)
-		{
-			switch(map[xi][yi]) 
-			{
-				case TILE_WALL:  putchar('#'); break;
-				case TILE_ROOM:
-				case TILE_FLOOR: putchar('.'); break;
-				case TILE_DOOR:	  putchar('+'); break;
-			}
-		}
-        putchar('\n');
-	}
-}
-
 
 int main()
 {
+	tileDefs *_TileDefs = init_TileDefs();
+	
 	tunneler *pTunneler;
 	tunnelerQueue *queueTunneler;
 	
@@ -88,7 +50,7 @@ int main()
 	size_x = 64;
 	size_y = 90;
 
-	initmap();
+	map *_map = init_map();
 
 	pTunneler = malloc(sizeof(tunneler));
 	tunneler_rand(pTunneler,1);
@@ -106,7 +68,7 @@ int main()
 	}
 	pushTunnelerTQueue (queueTunneler, pTunneler);
 
-	int x,y,xdir,ydir;
+	int xc,yc,xdir,ydir;
 
 	int newname = 2;
 
@@ -119,8 +81,8 @@ int main()
 		qIterate++;
 		/* sleep(2); */
 		*pTunneler = popTunnelerTQueue(queueTunneler);
-		x = pTunneler->xCoord;
-		y = pTunneler->yCoord;
+		xc = pTunneler->xCoord;
+		yc = pTunneler->yCoord;
 		xdir = pTunneler->xDir;
 		ydir = pTunneler->yDir;
 
@@ -133,12 +95,12 @@ int main()
 		for (chkSQx = -1; chkSQx <= 1; chkSQx++)
 		{
 			int mapCx;
-			mapCx = x + xdir + chkSQx;
+			mapCx = xc + xdir + chkSQx;
 			if (mapCx > 0 && mapCx < size_x - 1) {
 				for (chkSQy = -1; chkSQy <= 1; chkSQy++)
 				{
 					int mapCy;
-					mapCy = y + ydir + chkSQy;
+					mapCy = yc + ydir + chkSQy;
 					if (mapCy > 0 && mapCy < size_y - 1)
 					{
 						if (map[mapCx][mapCy] == TILE_FLOOR)
@@ -155,22 +117,22 @@ int main()
 				}
 			}
 		}
-		if (x + (xdir * 2) > 0 && x + (xdir * 2) < size_x && y + (ydir * 2) > 0 && y + (ydir * 2) < size_y)
+		if (xc + (xdir * 2) > 0 && xc + (xdir * 2) < size_x && y + (ydir * 2) > 0 && yc + (ydir * 2) < size_y)
 		{
-			if (map[x + (xdir * 2)][y + (ydir * 2)] == TILE_ROOM)
+			if (map[xc + (xdir * 2)][yc + (ydir * 2)] == TILE_ROOM)
 			{
 				int zz, chkz;
 				chkz = 1;
 				for (zz = -1; zz <= 1; zz++)
 				{
-					if (map[x + xdir + (ydir * zz)][y + ydir + (xdir * zz)] == TILE_DOOR)
+					if (map[xc + xdir + (ydir * zz)][yc + ydir + (xdir * zz)] == TILE_DOOR)
 					{
 						chkz = 0;
 					}
 				}
 				if (chkz == 1)
 				{
-					map[x + xdir][y + ydir] = TILE_DOOR;
+					map[xc + xdir][yc + ydir] = TILE_DOOR;
 				}
 				validMove = 0;
 			}
@@ -179,13 +141,13 @@ int main()
 		{
 			validMove = 0;
 		}
-		if (x + xdir > 0 && x + xdir < size_x - 1 && y + ydir > 0 && y + ydir < size_y - 1 &&
+		if (xc + xdir > 0 && xc + xdir < size_x - 1 && yc + ydir > 0 && yc + ydir < size_y - 1 &&
 		    validMove == 1)
 		{
-			map[x + xdir][y + ydir] = TILE_FLOOR;
+			map[xc + xdir][yc + ydir] = TILE_FLOOR;
 			cntDug++;
-			pTunneler->xCoord = x + xdir;
-			pTunneler->yCoord = y + ydir;
+			pTunneler->xCoord = xc + xdir;
+			pTunneler->yCoord = yc + ydir;
 			/* Check if spawning a roomer, and try to spawn room */
 			if (rand() % 100 <= pTunneler->roomerSpawn)
 			{				
