@@ -23,7 +23,6 @@
 
 typedef struct 
 {
-	int name;
 	int xCoord;
 	int yCoord;
 	int xDir;
@@ -33,10 +32,9 @@ typedef struct
 	int turnChance;
 	int tunnelerSpawn;
 	int roomerSpawn;
-	int builderSpawn;
 	int neatness;
 } tunneler;
 	
-extern void tunneler_rand(tunneler *inTunneler, int nm);
+extern void tunneler_rand(tunneler *inTunneler, int lifeMin, int lifeMax, int turnMin, int turnMax, int tspMin, int tspMax, int rspMin, int rspMax, int neatMin, int neatMax);
 
 #endif 

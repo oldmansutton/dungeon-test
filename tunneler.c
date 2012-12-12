@@ -18,13 +18,11 @@
 #include <stdlib.h>
 #include "tunneler.h"
 
-void tunneler_rand(tunneler *inTunneler, int nm)
+void tunneler_rand(tunneler *inTunneler, int lifeMin, int lifeMax, int turnMin, int turnMax, int tspMin, int tspMax, int rspMin, int rspMax, int neatMin, int neatMax)
 {
 	int r;
 	int d;	
 
-	inTunneler->name = nm;
-	
 	inTunneler->xDir = 0;
  	inTunneler->yDir = 0;
 
@@ -47,11 +45,10 @@ void tunneler_rand(tunneler *inTunneler, int nm)
 		}
 	}
 
-	inTunneler->lifetime = (rand() % (80 + 1 - 50)) + 50;
+	inTunneler->lifetime = (rand() % (lifeMax + 1 - lifeMin)) + lifeMin;
 	inTunneler->age = 0;
-	inTunneler->turnChance = (rand() % (25 + 1 - 5)) + 5;
-	inTunneler->tunnelerSpawn = (rand() % (33 + 1 - 10)) + 10;
-	inTunneler->roomerSpawn = (rand() % (33 + 1 - 10)) + 10;
-	inTunneler->builderSpawn = rand() % 100;
-	inTunneler->neatness = (rand() % (NEATNESS_MAX + 1 - NEATNESS_MIN)) + NEATNESS_MIN;
+	inTunneler->turnChance = (rand() % (turnMax + 1 - turnMin)) + turnMin;
+	inTunneler->tunnelerSpawn = (rand() % (tspMax + 1 - tspMin)) + tspMin;
+	inTunneler->roomerSpawn = (rand() % (rspMax + 1 - rspMin)) + rspMin;
+	inTunneler->neatness = (rand() % (neatMax + 1 - neatMin)) + neatMin;
 }

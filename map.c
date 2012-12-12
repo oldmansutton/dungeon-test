@@ -15,38 +15,39 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+#include <stdlib.h>
 #include "map.h"
 
-map *initmap(void)  /* Initialize the map */
+map *init_map(void)  /* Initialize the map */
 {
-	map *newmap = (map*)malloc(sizeof(map) * MAP_HEIGHT * MAPWIDTH);
+	map *newmap = (map*)malloc(sizeof(map) * MAP_HEIGHT * MAP_WIDTH);
 
 	int x, y;
 
 	/* Fill map grid with "WALL" tiles */
-	for (x = 0; x < MAP_WIDTH; x++)
+	for (y = 0; y < MAP_HEIGHT; y++)
 	{
-		for (y = 0; y < MAP_HEIGHT; y++)
+		for (x = 0; x < MAP_WIDTH; x++)
 		{
-			newmap[MAP_XY].tile = TILE_WALL;
-			newmap[MAP_XY].Seen = false;
-			newmap[MAP_XY].Occupied = false;
-			newmap[MAP_XY].Lit = false;
+			set_TileType(newmap,x,y,TILE_WALL);
+			newmap[MAP_XY(x,y)].Seen = false;
+			newmap[MAP_XY(x,y)].Occupied = false;
+			newmap[MAP_XY(x,y)].Lit = false;
 		}
 	}
 
 	return newmap;
 }
 
-void printmap(map *pmap)
+void print_map(map *_map)
 {
 	int x, y;
 
-	for(x = 0; x < MAP_WIDTH; x++)
+	for(y = 0; y < MAP_HEIGHT; y++)
 	{
-		for(y = 0; y < MAP_HEIGHT; y++)
+		for(x = 0; x < MAP_WIDTH; x++)
 		{
-			switch(pmap[MAP_XY]) 
+			switch(get_TileType(_map,x,y))
 			{
 				case TILE_WALL:  putchar('#'); break;
 				case TILE_ROOM:
@@ -58,7 +59,17 @@ void printmap(map *pmap)
 	}
 }
 
-tileDefs *init_TileDefs(void)
+int get_TileType(map *_map, int x, int y)
+{
+	return _map[MAP_XY(x,y)].tile;
+}
+
+void set_TileType(map *_map, int x, int y, int type)
+{
+	_map[MAP_XY(x,y)].tile = type;
+}
+
+tileDefs *init_tileDefs(void)
 {
 	tileDefs *TD = (tileDefs*)malloc(sizeof(tileDefs) * TILE_COUNT);
 	int i;
@@ -84,5 +95,7 @@ tileDefs *init_TileDefs(void)
 					break;
 		}
 	}
+
+	return TD;
 }
 
