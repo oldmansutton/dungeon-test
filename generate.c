@@ -24,6 +24,15 @@
 
 void create_Level(map *_map)
 {
+	int x, y;
+	/* Start with a clean map */
+	for (y = 1; y < MAP_HEIGHT - 1; y++)
+	{
+		for (x = 1; x < MAP_WIDTH - 1; x++)
+		{
+			set_TileType (_map, x, y, TILE_WALL);
+		}
+	}
 	if (rand() % 100 < CAVERN_CHANCE)
 	{
 		gen_Noise(_map);
@@ -36,6 +45,7 @@ void create_Level(map *_map)
 		{
 			gen_Cavern(_map,CAVERN_R1,-1);
 		}
+		/* TO DO:  Remove unreachable locations from map (find spot, flood fill, unfilled are walls) */
 	} else {
 		/* TO DO:  Add more dungeon types by tweaking min/max ranges */
 		switch(rand() % 8)
@@ -72,7 +82,7 @@ void gen_Dungeon(map *_map, int lifeMin, int lifeMax, int turnMin, int turnMax, 
 	queueTunneler = newTQueue(50);
 	if (queueTunneler == 0)
 	{
-		printf("Out of memory (Queuing Tunnelers)\n");
+		fprintf(stderr, "Out of memory (Queuing Tunnelers)\n");
 		return;
 	}
 	
@@ -302,7 +312,7 @@ void gen_Dungeon(map *_map, int lifeMin, int lifeMax, int turnMin, int turnMax, 
 				pushTunnelerTQueue (queueTunneler, pTunneler);
 			}
 		}
-		if ((queueTunneler->size == 0 || qIterate >= 2500) && cntDug < (int)((MAP_WIDTH * MAP_HEIGHT) * 0.40))
+		if ((queueTunneler->size == 0 || qIterate >= 2500) && cntDug < (int)((MAP_WIDTH * MAP_HEIGHT) * 0.35))
 		{
 			int xi;
 			free(_map);

@@ -16,6 +16,8 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdlib.h>
+#include <SDL/SDL.h>
+#include "graphics.h"
 #include "map.h"
 
 map *init_map(void)  /* Initialize the map */
@@ -78,18 +80,22 @@ tileDefs *init_tileDefs(void)
 		switch(i)
 		{
 			case 0:	TD[i].Name = "Floor";
+					TD[i].Image = load_image("mini_floor.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = true;
 					break;
 			case 1:	TD[i].Name = "Wall";
+					TD[i].Image = load_image("mini_wall.png");
 					TD[i].Walkable = false;
 					TD[i].Permanent = true;
 					break;
 			case 2:	TD[i].Name = "Door";
+					TD[i].Image = load_image("mini_door.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = false;
 					break;
 			case 3:	TD[i].Name = "Room Floor";
+					TD[i].Image = load_image("mini_floor.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = true;
 					break;
@@ -99,3 +105,13 @@ tileDefs *init_tileDefs(void)
 	return TD;
 }
 
+void free_tileDefs(tileDefs *TD)
+{
+	int i;
+	for (i = 0; i < TILE_COUNT; i++)
+	{
+		SDL_FreeSurface(TD[i].Image);
+	}
+	free(TD);
+}
+	

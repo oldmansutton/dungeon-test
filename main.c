@@ -21,6 +21,8 @@
 #include <stdlib.h>
 #include <time.h>
 #include <math.h>
+#include <SDL/SDL.h>
+#include "command.h"
 #include "map.h"
 #include "generate.h"
 
@@ -29,17 +31,62 @@ int main()
 {
 	srand(time(NULL));
 
+	if(SDL_Init(SDL_INIT_VIDEO) != 0)
+	{
+		fprintf(stderr, "Cannot initialize SDL video!\n");
+		exit(1);
+	}
+
+	atexit(SDL_Quit);
+	
+    int width = 800;
+    int height = 600;
+
+    SDL_Surface *_screen = SDL_SetVideoMode(width, height, 0, SDL_SWSURFACE);
+    if(_screen == NULL) {
+        fprintf(stderr, "Error: Invalid screen pointer\n");
+        exit(2);
+    }
+
+	SDL_WM_SetCaption("dungeon_test", NULL);
+	
+	
 	tileDefs *_TileDefs;
 	_TileDefs = init_tileDefs();
 
 	map *_map;
 	_map = init_map();
 
-	create_Level(_map);
+	bool running = true;
 
-	print_map(_map);
+	while (running)
+	{
+		int updateMap = 0;
+		SDL_Event event;
+	    while (SDL_PollEvent(&event))
+        {
+            switch (event.type)
+            {
+				case SDL_KEYDOWN:	processCommand(&event.key);
+									create_Level(_map);
+									updateMap = 1;
+									break;
+        	    case SDL_QUIT:		running = false; 
+                					break;
+            	default:			break;
+            }
+        }
+		if (updateMap > 0)
+		{
+			draw_map(_map, _TileDefs, _screen);
+			if (SDL_Flip(_screen) == -1)
+			{
+				return 5;
+			}
+		}
+	}
 
-	free(_TileDefs);
+	free_tileDefs(_TileDefs);
 	free(_map);
 	
 	return (0);

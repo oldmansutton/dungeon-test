@@ -1,4 +1,4 @@
-// map.h
+// graphics.h
 //
 // Copyright (C) 2012 - Ryan Sutton
 //
@@ -15,50 +15,15 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef MAP_H
-#define MAP_H
+#ifndef GRAPHICS_H
+#define GRAPHICS_H
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include "map.h"
 
-#define true 1
-#define false 0
-
-#define MAP_WIDTH 96
-#define MAP_HEIGHT 60
-
-#define MAP_XY(x,y) ((y * MAP_WIDTH) + x)
-
-#define TILE_COUNT 4
-
-#define TILE_FLOOR 0
-#define TILE_WALL 1
-#define TILE_DOOR 2
-#define TILE_ROOM 3
-
-typedef int bool;
-
-typedef struct
-{
-	char *Name;
-	SDL_Surface *Image;
-	bool Walkable;
-	bool Permanent;
-} tileDefs;
-
-typedef struct
-{
-	int tile;
-	bool Seen;
-	bool Occupied;
-	bool Lit;
-} map;
-
-extern map *init_map(void);
-extern void print_map(map *_map);
-int get_TileType(map *_map, int x, int y);
-void set_TileType(map *_map, int x, int y, int type);
-
-extern tileDefs *init_tileDefs(void);
-extern void free_tileDefs(tileDefs *TD);
+extern SDL_Surface *load_image(char *filename);
+extern void apply_surface(int x, int y, SDL_Surface *source, SDL_Surface *dest);
+extern void draw_map(map *_map, tileDefs *_TD, SDL_Surface *_surface);
 
 #endif
