@@ -1,2 +1,0 @@
-#!/bin/bash
-./dungeon_test > map.txt ; ./miniimg ; eog minimap.png
