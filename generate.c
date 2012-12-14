@@ -17,10 +17,10 @@
 
 #include <stdio.h>
 #include <math.h>
-#include "generate.h"
 #include "tunneler.h"
 #include "queue.h"
 #include "roomer.h"
+#include "generate.h"
 
 void create_Level(map *_map)
 {
@@ -314,7 +314,6 @@ void gen_Dungeon(map *_map, int lifeMin, int lifeMax, int turnMin, int turnMax, 
 		}
 		if ((queueTunneler->size == 0 || qIterate >= 2500) && cntDug < (int)((MAP_WIDTH * MAP_HEIGHT) * 0.35))
 		{
-			int xi;
 			free(_map);
 			_map = init_map();
 			cntDug = 0;

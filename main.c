@@ -1,4 +1,3 @@
-/* -*- Mode: C; indent-tabs-mode: t; c-basic-offset: 4; tab-width: 4 -*- */
 /*
  * main.c
  * Copyright (C) 2012 Ryan Sutton <oldmansutton@gmail.com>
@@ -23,11 +22,13 @@
 #include <math.h>
 #include <SDL/SDL.h>
 #include "helper.h"
+#include "map.h"
 #include "command.h"
 #include "graphics.h"
 #include "player.h"
-#include "map.h"
 #include "generate.h"
+
+int errlvl = 0;
 
 int main()
 {
@@ -35,7 +36,7 @@ int main()
 
 	if(SDL_Init(SDL_INIT_VIDEO) != 0)
 	{
-		fprintf(stderr, "Cannot initialize SDL video!\n");
+		fprintf(stderr, "Exiting:  (SDL) Cannot initialize video!\n");
 		exit(1);
 	}
 
@@ -45,8 +46,8 @@ int main()
     int height = 608;
 
     SDL_Surface *_screen = SDL_SetVideoMode(width, height, 0, SDL_SWSURFACE);
-    if(_screen == NULL) {
-        fprintf(stderr, "Error: Invalid screen pointer\n");
+	if(_screen == NULL) {
+        fprintf(stderr, "Exiting:  (SDL) Invalid screen pointer\n");
         exit(2);
     }
 
@@ -68,7 +69,7 @@ int main()
 
 	bool validPXY = false;
 
-	while (!validPXY)
+	while (!validPXY) /* Find the player a random place to stand */
 	{
 		int rpx, rpy;
 		rpx = randr(1,MAP_WIDTH - 1);
@@ -82,42 +83,41 @@ int main()
 	}
 
 	draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
+	draw_mini_map(_map, _TileDefs, _player, _screen);
 	apply_surface(12 * 32, 9 * 32,_player->Image,_screen);
 
-	if (SDL_Flip(_screen) == -1)
-	{
-		return 5;
-	}
-
+	bool updateMap = true;
+	
 	while (running)
 	{
+		if (updateMap)
+		{
+			draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
+			draw_mini_map(_map, _TileDefs, _player, _screen);
+			apply_surface(12 * 32, 9 * 32, _player->Image, _screen);
+			errlvl = show_surface(_screen);
+			if (errlvl != 0)
+			{
+				exit(errlvl);
+			}
+			updateMap = false;
+		}
 		SDL_Event event;
-		bool updateMap;
-		updateMap = false;
 	    while (SDL_PollEvent(&event))
         {
             switch (event.type)
             {
-				case SDL_KEYDOWN:	puts("Keydown\n");
-									updateMap = processCommand(&event.key, _map, _TileDefs, _player);
+				case SDL_KEYDOWN:	updateMap = processCommand(&event.key, _map, _TileDefs, _player);
 									break;
         	    case SDL_QUIT:		running = false; 
                 					break;
             	default:			break;
             }
         }
-		if (updateMap)
-		{
-			draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
-			draw_mini_map(_map, _TileDefs, _player, _screen);
-			apply_surface(12 * 32, 9 * 32,_player->Image,_screen);
-			if (SDL_Flip(_screen) == -1)
-			{
-				return 5;
-			}
-		}
 	}
 
+	SDL_FreeSurface(_screen);
+	
 	free_Player(_player);
 	free_tileDefs(_TileDefs);
 	free(_map);

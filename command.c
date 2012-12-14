@@ -15,11 +15,13 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+#include <SDL/SDL.h>
+#include "map.h"
+#include "player.h"
 #include "command.h"
 
 bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_player)
 {
-	puts("In command.c\n");
 	bool update;
 	update = false;
 	switch (key->keysym.sym)
@@ -63,6 +65,7 @@ bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_p
 		case SDLK_KP9:	/* Move NorthEast */
 						update = move_Player(1, -1, _map, _TD, _player);
 						break;
+		default:		break;
 	}
 	return update;
 }
@@ -72,14 +75,12 @@ bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player)
 	int nx, ny;
 	nx = _player->x + x;
 	ny = _player->y + y;
-	printf("%i,%i -> %i,%i\n",_player->x,_player->y,nx,ny);
 	if (nx < 1 || nx >= MAP_WIDTH - 1 || ny < 1 || ny >= MAP_HEIGHT - 1)
 	{
 		return false;
 	}
-	if (test_Walkable (_map, nx, ny, _TD))
+	if (tile_Walkable (_map, nx, ny, _TD))
 	{
-		puts("Walkable\n");
 		_player->x = nx;
 		_player->y = ny;
 		return true;

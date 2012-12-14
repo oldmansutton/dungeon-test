@@ -49,15 +49,27 @@ typedef struct
 {
 	int tile;
 	bool Seen;
+	bool Visible;
 	bool Occupied;
 	bool Lit;
 } map;
 
 extern map *init_map(void);
 extern void print_map(map *_map);
-int get_TileType(map *_map, int x, int y);
-void set_TileType(map *_map, int x, int y, int type);
-bool test_Walkable(map *_map, int x, int y, tileDefs *_TD);
+
+extern int get_TileType(map *_map, int x, int y);
+extern void set_TileType(map *_map, int x, int y, int type);
+extern bool tile_Walkable(map *_map, int x, int y, tileDefs *_TD);
+
+extern bool map_Visible(map *_map, int x, int y);
+extern bool map_Seen(map *_map, int x, int y);
+extern bool map_Occupied(map *_map, int x, int y);
+extern bool map_Lit(map *_map, int x, int y);
+extern void set_Visible(map *_map, int x, int y, bool set);
+extern void set_Seen(map *_map, int x, int y, bool set);
+extern void set_Occupied(map *_map, int x, int y, bool set);
+extern void set_Lit(map *_map, int x, int y, bool set);
+
 
 extern tileDefs *init_tileDefs(void);
 extern void free_tileDefs(tileDefs *TD);

@@ -18,12 +18,11 @@
 #ifndef COMMAND_H
 #define COMMAND_H
 
-#include <stdio.h>
 #include <SDL/SDL.h>
 #include "map.h"
 #include "player.h"
 
-extern bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_player);
+bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_player);
 extern bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player);
 
 #endif

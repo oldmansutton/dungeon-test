@@ -17,7 +17,9 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include "vision.h"
 #include "map.h"
+#include "player.h"
 #include "graphics.h"
 
 SDL_Surface *load_image(char *filename)
@@ -46,6 +48,9 @@ void apply_surface(int x, int y, SDL_Surface *source, SDL_Surface *dest)
 
 void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface)
 {
+	SDL_Surface *black = SDL_CreateRGBSurface(SDL_SWSURFACE,32,32,32,0x000000FF,0x0000FF00,0x00FF0000,0xFF000000);
+	SDL_FillRect(black,NULL,0xFF808080);
+	update_PVision (_map, _TD, x, y, 3);
 	int map_x, map_y;
 	for (map_y = -9; map_y <= 9; map_y++)
 	{
@@ -58,10 +63,23 @@ void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface)
 			int i = get_TileType (_map, map_x + x, map_y + y);
 			if ((map_y + 9) * 32 >= 0 && (map_y + 9) * 32 <= 576 && (map_x + 12) * 32 >= 0 && (map_x + 12) * 32 <= 768)
 			{
-				apply_surface ((map_x + 12) * 32, (map_y + 9) * 32, _TD[i].Image, _surface);
+				if (map_Visible(_map, map_x, map_y))
+				{
+					apply_surface ((map_x + 12) * 32, (map_y + 9) * 32, _TD[i].Image, _surface);
+				} else {
+					if (map_Seen(_map, map_x, map_y))
+					{
+						SDL_SetAlpha(black,SDL_SRCALPHA,0x80);
+					} else {
+						SDL_SetAlpha(black,SDL_SRCALPHA,0xFF);
+					}
+					apply_surface((map_x + 12) * 32, (map_y + 9) * 32, black, _surface);
+
+				}
 			}
 		}
 	}
+	SDL_FreeSurface(black);
 }
 
 void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surface)
@@ -98,3 +116,15 @@ void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surf
 	}
 	apply_surface (808 + (_player->x * 3), 414 + (_player->y * 3), sp_player, _surface);
 }
+
+int show_surface(SDL_Surface *_surface)
+{
+	int r = 0;
+	if (SDL_Flip(_surface) == -1)
+	{
+		fprintf(stderr,"Exiting:  Unable to update video\n");
+		r = 3;
+	}
+	return r;
+}
+	

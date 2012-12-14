@@ -18,8 +18,21 @@
 #ifndef HELPER_H
 #define HELPER_H
 
-#include <stdlib.h>
+typedef struct
+{
+	int x;
+	int y;
+} _Point;
+
+typedef struct
+{
+	_Point *points;
+	int num_pts;
+} _Line;
 
 extern int randr(int min, int max);
+
+extern _Point *new_Point(int x, int y);
+extern _Line *new_Line(int x1, int y1, int x2, int y2);
 
 #endif

@@ -1,4 +1,4 @@
-// roomer.h
+// vision.h
 //
 // Copyright (C) 2012 - Ryan Sutton
 //
@@ -15,32 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef ROOMER_H
-#define ROOMER_H
+#ifndef VISION_H
+#define VISION_H
 
-#define ROOM_MIN 3
-#define ROOM_MAX 8
+#include "map.h"
 
-typedef struct
-{
-	int xDir;
-	int yDir;
-	int doorX;
-	int doorY;
-	int dimX;
-	int dimY;
-} roomer;
-
-typedef struct
-{
-	int x_ul,y_ul;
-	int x_ur,y_ur;
-	int x_bl,y_bl;
-	int x_br,y_br;
-} roomCorners;
-
-extern void newRoomer(roomer *room, int x, int y, int xdir, int ydir);
-
-extern roomCorners *get_RoomCorners(roomer *room, int offset_x, int offset_y);
+extern void update_PVision(map *_map, tileDefs *_TD, int x, int y, int r);
 
 #endif

@@ -19,13 +19,14 @@
 #define GRAPHICS_H
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include "player.h"
 #include "map.h"
+#include "player.h"
 
-extern SDL_Surface *load_image(char *filename);
+SDL_Surface *load_image(char *filename);
 extern void apply_surface(int x, int y, SDL_Surface *source, SDL_Surface *dest);
 extern void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface);
 extern void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surface);
+
+extern int show_surface(SDL_Surface *_surface);
 
 #endif

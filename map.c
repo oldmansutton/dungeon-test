@@ -17,6 +17,7 @@
 
 #include <stdlib.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
 #include "graphics.h"
 #include "map.h"
 
@@ -33,6 +34,7 @@ map *init_map(void)  /* Initialize the map */
 		{
 			set_TileType(newmap,x,y,TILE_WALL);
 			newmap[MAP_XY(x,y)].Seen = false;
+			newmap[MAP_XY(x,y)].Visible = false;
 			newmap[MAP_XY(x,y)].Occupied = false;
 			newmap[MAP_XY(x,y)].Lit = false;
 		}
@@ -71,11 +73,52 @@ void set_TileType(map *_map, int x, int y, int type)
 	_map[MAP_XY(x,y)].tile = type;
 }
 
-bool test_Walkable(map *_map, int x, int y, tileDefs *_TD)
+bool tile_Walkable(map *_map, int x, int y, tileDefs *_TD)
 {
 	int tile = get_TileType(_map,x,y);
 	bool walk = _TD[tile].Walkable;
 	return walk;
+}
+
+
+bool map_Visible(map *_map, int x, int y)
+{
+	return _map[MAP_XY(x,y)].Visible;
+}
+
+bool map_Seen(map *_map, int x, int y)
+{
+	return _map[MAP_XY(x,y)].Seen;
+}
+
+bool map_Occupied(map *_map, int x, int y)
+{
+	return _map[MAP_XY(x,y)].Occupied;
+}
+
+bool map_Lit(map *_map, int x, int y)
+{
+	return _map[MAP_XY(x,y)].Lit;
+}
+
+void set_Visible(map *_map, int x, int y, bool set)
+{
+	_map[MAP_XY(x,y)].Visible = set;
+}
+
+void set_Seen(map *_map, int x, int y, bool set)
+{
+	_map[MAP_XY(x,y)].Seen = set;
+}
+
+void set_Occupied(map *_map, int x, int y, bool set)
+{
+	_map[MAP_XY(x,y)].Occupied = set;
+}
+
+void set_Lit(map *_map, int x, int y, bool set)
+{
+	_map[MAP_XY(x,y)].Lit = set;
 }
 
 tileDefs *init_tileDefs(void)

@@ -19,7 +19,6 @@
 #define PLAYER_H
 
 #include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
 
 typedef struct
 {
@@ -30,5 +29,7 @@ typedef struct
 
 extern Player *new_Player(void);
 extern void free_Player(Player *_player);
+
+extern
 
 #endif
