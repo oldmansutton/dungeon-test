@@ -17,27 +17,72 @@
 
 #include "command.h"
 
-void processCommand(SDL_KeyboardEvent *key)
+bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_player)
 {
+	puts("In command.c\n");
+	bool update;
+	update = false;
 	switch (key->keysym.sym)
 	{
+		case SDLK_1:
 		case SDLK_KP1:	/* Move SouthWest */
+						update = move_Player(-1, 1, _map, _TD, _player);
 						break;
+		case SDLK_2:
+		case SDLK_DOWN:
 		case SDLK_KP2:	/* Move South */
+						update = move_Player(0, 1, _map, _TD, _player);
 						break;
+		case SDLK_3:
 		case SDLK_KP3:	/* Move SouthEast */
+						update = move_Player(1, 1, _map, _TD, _player);
 						break;
+		case SDLK_LEFT:
+		case SDLK_4:
 		case SDLK_KP4:	/* Move West */
+						update = move_Player(-1, 0, _map, _TD, _player);
 						break;
+		case SDLK_5:
 		case SDLK_KP5:	/* Do Nothing */
 						break;
+		case SDLK_6:
+		case SDLK_RIGHT:
 		case SDLK_KP6:	/* Move East */
+						update = move_Player(1, 0, _map, _TD, _player);
 						break;
+		case SDLK_7:
 		case SDLK_KP7:	/* Move NorthWest */
+						update = move_Player(-1, -1, _map, _TD, _player);
 						break;
+		case SDLK_8:
+		case SDLK_UP:
 		case SDLK_KP8:	/* Move North */
+						update = move_Player(0, -1, _map, _TD, _player);
 						break;
+		case SDLK_9:
 		case SDLK_KP9:	/* Move NorthEast */
+						update = move_Player(1, -1, _map, _TD, _player);
 						break;
 	}
+	return update;
+}
+
+bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player)
+{
+	int nx, ny;
+	nx = _player->x + x;
+	ny = _player->y + y;
+	printf("%i,%i -> %i,%i\n",_player->x,_player->y,nx,ny);
+	if (nx < 1 || nx >= MAP_WIDTH - 1 || ny < 1 || ny >= MAP_HEIGHT - 1)
+	{
+		return false;
+	}
+	if (test_Walkable (_map, nx, ny, _TD))
+	{
+		puts("Walkable\n");
+		_player->x = nx;
+		_player->y = ny;
+		return true;
+	}
+	return false;
 }

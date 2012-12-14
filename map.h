@@ -57,6 +57,7 @@ extern map *init_map(void);
 extern void print_map(map *_map);
 int get_TileType(map *_map, int x, int y);
 void set_TileType(map *_map, int x, int y, int type);
+bool test_Walkable(map *_map, int x, int y, tileDefs *_TD);
 
 extern tileDefs *init_tileDefs(void);
 extern void free_tileDefs(tileDefs *TD);

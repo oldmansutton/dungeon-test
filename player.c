@@ -15,13 +15,21 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+#include <SDL/SDL.h>
+#include "graphics.h"
 #include "player.h"
 
 Player *new_Player(void)
 {
 	Player *_player = (Player*)malloc(sizeof(Player));
-	Player->x = 0;
-	Player->y = 0;
-	Player->Image = load_image("player.png");
+	_player->x = 0;
+	_player->y = 0;
+	_player->Image = load_image("player.png");
 	return _player;
+}
+
+void free_Player(Player *_player)
+{
+	SDL_FreeSurface(_player->Image);
+	free(_player);
 }

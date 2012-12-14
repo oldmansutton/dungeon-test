@@ -71,6 +71,13 @@ void set_TileType(map *_map, int x, int y, int type)
 	_map[MAP_XY(x,y)].tile = type;
 }
 
+bool test_Walkable(map *_map, int x, int y, tileDefs *_TD)
+{
+	int tile = get_TileType(_map,x,y);
+	bool walk = _TD[tile].Walkable;
+	return walk;
+}
+
 tileDefs *init_tileDefs(void)
 {
 	tileDefs *TD = (tileDefs*)malloc(sizeof(tileDefs) * TILE_COUNT);

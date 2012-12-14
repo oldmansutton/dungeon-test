@@ -44,19 +44,57 @@ void apply_surface(int x, int y, SDL_Surface *source, SDL_Surface *dest)
 	SDL_BlitSurface(source, NULL, dest, &offset);
 }
 
-void draw_map(map *_map, tileDefs *_TD, SDL_Surface *_surface)
+void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface)
 {
 	int map_x, map_y;
-	for (map_y = 0; map_y < MAP_HEIGHT; map_y++)
+	for (map_y = -9; map_y <= 9; map_y++)
 	{
-		for (map_x = 0; map_x < MAP_WIDTH; map_x++)
+		for (map_x = -12; map_x <= 12; map_x++)
 		{
-			int i = get_TileType (_map,map_x,map_y);
-			if (map_y * 32 >= 0 && map_y * 32 <= 576 && map_x * 32 >= 0 && map_x * 32 <= 768)
+			if (y + map_y < 0 || x + map_x < 0 || y + map_y > MAP_HEIGHT - 1 || x + map_x > MAP_WIDTH - 1)
 			{
-				apply_surface (map_x * 32, map_y * 32, _TD[i].Image, _surface);
+				continue;
+			}
+			int i = get_TileType (_map, map_x + x, map_y + y);
+			if ((map_y + 9) * 32 >= 0 && (map_y + 9) * 32 <= 576 && (map_x + 12) * 32 >= 0 && (map_x + 12) * 32 <= 768)
+			{
+				apply_surface ((map_x + 12) * 32, (map_y + 9) * 32, _TD[i].Image, _surface);
 			}
 		}
 	}
 }
 
+void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surface)
+{
+	int x, y;
+	SDL_Surface *sp_wall;
+	SDL_Surface *sp_floor;
+	SDL_Surface *sp_door;
+	SDL_Surface *sp_player;
+	sp_wall = load_image("mini_wall.png");
+	sp_floor = load_image("mini_floor.png");
+	sp_door = load_image("mini_door.png");
+	sp_player = load_image("mini_player.png");
+	for (y = 0; y < MAP_HEIGHT; y++)
+	{
+		for (x = 0; x < MAP_WIDTH; x++)
+		{
+			if (x < 0 || y < 0 || x > MAP_WIDTH - 1 || y > MAP_HEIGHT - 1)
+			{
+				continue;
+			}
+			int i = get_TileType(_map,x,y);
+			switch(i)
+			{
+				case TILE_DOOR:		apply_surface (808 + (x * 3), 414 + (y * 3), sp_door, _surface);
+									break;
+				case TILE_WALL: 	apply_surface (808 + (x * 3), 414 + (y * 3), sp_wall, _surface);
+									break;
+				case TILE_FLOOR:
+				case TILE_ROOM:		apply_surface (808 + (x * 3), 414 + (y * 3), sp_floor, _surface);
+									break;
+			}
+		}
+	}
+	apply_surface (808 + (_player->x * 3), 414 + (_player->y * 3), sp_player, _surface);
+}

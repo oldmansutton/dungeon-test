@@ -41,7 +41,7 @@ int main()
 
 	atexit(SDL_Quit);
 	
-    int width = 800;
+    int width = 1000;
     int height = 608;
 
     SDL_Surface *_screen = SDL_SetVideoMode(width, height, 0, SDL_SWSURFACE);
@@ -71,19 +71,19 @@ int main()
 	while (!validPXY)
 	{
 		int rpx, rpy;
-		rpx = randr(0,MAX_WIDTH);
-		rpy = randr(0,MAX_HEIGHT);
-		if (get_TileType(*_map,x,y) == TILE_FLOOR)
+		rpx = randr(1,MAP_WIDTH - 1);
+		rpy = randr(1,MAP_HEIGHT - 1);
+		if (get_TileType(_map,rpx,rpy) == TILE_FLOOR)
 		{
 			validPXY = true;
+			_player->x = rpx;
+			_player->y = rpy;
 		}
 	}
 
-	draw_map(rpx, rpy, _map, _TileDefs, _screen);
+	draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
+	apply_surface(12 * 32, 9 * 32,_player->Image,_screen);
 
-
-	
-	apply_surface(rpx,rpy,_player->Image,_screen);
 	if (SDL_Flip(_screen) == -1)
 	{
 		return 5;
@@ -91,24 +91,26 @@ int main()
 
 	while (running)
 	{
-		int updateMap = 0;
 		SDL_Event event;
+		bool updateMap;
+		updateMap = false;
 	    while (SDL_PollEvent(&event))
         {
             switch (event.type)
             {
-				case SDL_KEYDOWN:	processCommand(&event.key);
-									create_Level(_map);
-									updateMap = 1;
+				case SDL_KEYDOWN:	puts("Keydown\n");
+									updateMap = processCommand(&event.key, _map, _TileDefs, _player);
 									break;
         	    case SDL_QUIT:		running = false; 
                 					break;
             	default:			break;
             }
         }
-		if (updateMap > 0)
+		if (updateMap)
 		{
-			draw_map(_map, _TileDefs, _screen);
+			draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
+			draw_mini_map(_map, _TileDefs, _player, _screen);
+			apply_surface(12 * 32, 9 * 32,_player->Image,_screen);
 			if (SDL_Flip(_screen) == -1)
 			{
 				return 5;
@@ -116,6 +118,7 @@ int main()
 		}
 	}
 
+	free_Player(_player);
 	free_tileDefs(_TileDefs);
 	free(_map);
 	
