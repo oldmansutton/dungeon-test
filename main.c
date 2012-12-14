@@ -22,10 +22,12 @@
 #include <time.h>
 #include <math.h>
 #include <SDL/SDL.h>
+#include "helper.h"
 #include "command.h"
+#include "graphics.h"
+#include "player.h"
 #include "map.h"
 #include "generate.h"
-
 
 int main()
 {
@@ -40,7 +42,7 @@ int main()
 	atexit(SDL_Quit);
 	
     int width = 800;
-    int height = 600;
+    int height = 608;
 
     SDL_Surface *_screen = SDL_SetVideoMode(width, height, 0, SDL_SWSURFACE);
     if(_screen == NULL) {
@@ -58,6 +60,34 @@ int main()
 	_map = init_map();
 
 	bool running = true;
+
+	create_Level(_map);
+
+	Player *_player;
+	_player = new_Player();
+
+	bool validPXY = false;
+
+	while (!validPXY)
+	{
+		int rpx, rpy;
+		rpx = randr(0,MAX_WIDTH);
+		rpy = randr(0,MAX_HEIGHT);
+		if (get_TileType(*_map,x,y) == TILE_FLOOR)
+		{
+			validPXY = true;
+		}
+	}
+
+	draw_map(rpx, rpy, _map, _TileDefs, _screen);
+
+
+	
+	apply_surface(rpx,rpy,_player->Image,_screen);
+	if (SDL_Flip(_screen) == -1)
+	{
+		return 5;
+	}
 
 	while (running)
 	{

@@ -1,6 +1,6 @@
-// graphics.h
+// helper.h
 //
-// Copyright (C) 2012 - Ryan Sutton
+// Copyright (C) 2012 - oldmansutton
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,15 +15,11 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef GRAPHICS_H
-#define GRAPHICS_H
+#ifndef HELPER_H
+#define HELPER_H
 
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include "map.h"
+#include <stdlib.h>
 
-extern SDL_Surface *load_image(char *filename);
-extern void apply_surface(int x, int y, SDL_Surface *source, SDL_Surface *dest);
-extern void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface);
+extern int randr(int min, int max);
 
 #endif

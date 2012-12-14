@@ -23,8 +23,8 @@
 #define true 1
 #define false 0
 
-#define MAP_WIDTH 96
-#define MAP_HEIGHT 60
+#define MAP_WIDTH 64
+#define MAP_HEIGHT 64
 
 #define MAP_XY(x,y) ((y * MAP_WIDTH) + x)
 

@@ -52,10 +52,11 @@ void draw_map(map *_map, tileDefs *_TD, SDL_Surface *_surface)
 		for (map_x = 0; map_x < MAP_WIDTH; map_x++)
 		{
 			int i = get_TileType (_map,map_x,map_y);
-			if (map_y * 4 >= 0 && map_y * 4 <= 596 && map_x * 4 >= 0 && map_x * 4 <= 796)
+			if (map_y * 32 >= 0 && map_y * 32 <= 576 && map_x * 32 >= 0 && map_x * 32 <= 768)
 			{
-				apply_surface (map_x * 4, map_y * 4, _TD[i].Image, _surface);
+				apply_surface (map_x * 32, map_y * 32, _TD[i].Image, _surface);
 			}
 		}
 	}
 }
+

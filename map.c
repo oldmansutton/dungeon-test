@@ -80,22 +80,22 @@ tileDefs *init_tileDefs(void)
 		switch(i)
 		{
 			case 0:	TD[i].Name = "Floor";
-					TD[i].Image = load_image("mini_floor.png");
+					TD[i].Image = load_image("floor.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = true;
 					break;
 			case 1:	TD[i].Name = "Wall";
-					TD[i].Image = load_image("mini_wall.png");
+					TD[i].Image = load_image("wall.png");
 					TD[i].Walkable = false;
 					TD[i].Permanent = true;
 					break;
 			case 2:	TD[i].Name = "Door";
-					TD[i].Image = load_image("mini_door.png");
+					TD[i].Image = load_image("door.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = false;
 					break;
 			case 3:	TD[i].Name = "Room Floor";
-					TD[i].Image = load_image("mini_floor.png");
+					TD[i].Image = load_image("floor.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = true;
 					break;
