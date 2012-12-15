@@ -48,9 +48,9 @@ void apply_surface(int x, int y, SDL_Surface *source, SDL_Surface *dest)
 
 void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface)
 {
-	SDL_Surface *black = SDL_CreateRGBSurface(SDL_SWSURFACE,32,32,32,0x000000FF,0x0000FF00,0x00FF0000,0xFF000000);
-	SDL_FillRect(black,NULL,0xFF808080);
-	update_PVision (_map, _TD, x, y, 3);
+	SDL_Surface *unseen = load_image("unseen.png");
+	SDL_Surface *unvisible = load_image("unvisible.png");
+	update_PVision(_map, _TD, x, y, 9);
 	int map_x, map_y;
 	for (map_y = -9; map_y <= 9; map_y++)
 	{
@@ -58,28 +58,27 @@ void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface)
 		{
 			if (y + map_y < 0 || x + map_x < 0 || y + map_y > MAP_HEIGHT - 1 || x + map_x > MAP_WIDTH - 1)
 			{
+				apply_surface((map_x + 12) * 32, (map_y + 9) * 32,  unseen, _surface);
 				continue;
 			}
 			int i = get_TileType (_map, map_x + x, map_y + y);
 			if ((map_y + 9) * 32 >= 0 && (map_y + 9) * 32 <= 576 && (map_x + 12) * 32 >= 0 && (map_x + 12) * 32 <= 768)
 			{
-				if (map_Visible(_map, map_x, map_y))
+				apply_surface ((map_x + 12) * 32, (map_y + 9) * 32, _TD[i].Image, _surface);
+				if (map_Visible(_map, map_x + x, map_y + y) != true)
 				{
-					apply_surface ((map_x + 12) * 32, (map_y + 9) * 32, _TD[i].Image, _surface);
-				} else {
-					if (map_Seen(_map, map_x, map_y))
+					if (map_Seen(_map, map_x + x, map_y + y) == true)
 					{
-						SDL_SetAlpha(black,SDL_SRCALPHA,0x80);
+						apply_surface((map_x + 12) * 32, (map_y + 9) * 32, unvisible, _surface);
 					} else {
-						SDL_SetAlpha(black,SDL_SRCALPHA,0xFF);
+						apply_surface((map_x + 12) * 32, (map_y + 9) * 32, unseen, _surface);
 					}
-					apply_surface((map_x + 12) * 32, (map_y + 9) * 32, black, _surface);
-
-				}
+				} 
 			}
 		}
 	}
-	SDL_FreeSurface(black);
+	SDL_FreeSurface(unseen);
+	SDL_FreeSurface(unvisible);
 }
 
 void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surface)
@@ -89,10 +88,12 @@ void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surf
 	SDL_Surface *sp_floor;
 	SDL_Surface *sp_door;
 	SDL_Surface *sp_player;
+	SDL_Surface *sp_unseen;
 	sp_wall = load_image("mini_wall.png");
 	sp_floor = load_image("mini_floor.png");
 	sp_door = load_image("mini_door.png");
 	sp_player = load_image("mini_player.png");
+	sp_unseen = load_image("mini_unseen.png");
 	for (y = 0; y < MAP_HEIGHT; y++)
 	{
 		for (x = 0; x < MAP_WIDTH; x++)
@@ -101,16 +102,21 @@ void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surf
 			{
 				continue;
 			}
-			int i = get_TileType(_map,x,y);
-			switch(i)
+			if (map_Seen(_map,x,y) == true)
 			{
-				case TILE_DOOR:		apply_surface (808 + (x * 3), 414 + (y * 3), sp_door, _surface);
-									break;
-				case TILE_WALL: 	apply_surface (808 + (x * 3), 414 + (y * 3), sp_wall, _surface);
-									break;
-				case TILE_FLOOR:
-				case TILE_ROOM:		apply_surface (808 + (x * 3), 414 + (y * 3), sp_floor, _surface);
-									break;
+				int i = get_TileType(_map,x,y);
+				switch(i)
+				{
+					case TILE_DOOR:		apply_surface (808 + (x * 3), 414 + (y * 3), sp_door, _surface);
+										break;
+					case TILE_WALL: 	apply_surface (808 + (x * 3), 414 + (y * 3), sp_wall, _surface);
+										break;
+					case TILE_FLOOR:
+					case TILE_ROOM:		apply_surface (808 + (x * 3), 414 + (y * 3), sp_floor, _surface);
+										break;
+				}
+			} else {
+				apply_surface(808 + (x * 3), 414 + (y * 3), sp_unseen, _surface);
 			}
 		}
 	}

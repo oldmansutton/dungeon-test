@@ -29,9 +29,9 @@ void update_PVision(map *_map, tileDefs *_TD, int px, int py, int r)
 			set_Visible(_map,x,y,false);
 		}
 	}
-	for (y = -r; y < r; y++)
+	for (y = -r; y <= r; y++)
 	{
-		for (x = -r; x < r; x++)
+		for (x = -r; x <= r; x++)
 		{
 			/* Sanity checks */
 			if (x * x + y * y > r * r)
@@ -53,7 +53,7 @@ void update_PVision(map *_map, tileDefs *_TD, int px, int py, int r)
 				set_Visible(_map, ptx, pty, true);
 				set_Seen(_map, ptx, pty, true);
 
-				if (!tile_Walkable(_map,ptx,pty,_TD))
+				if (tile_Walkable(_map,ptx,pty,_TD) == false)
 				{
 					break;
 				}
