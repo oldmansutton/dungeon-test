@@ -19,6 +19,7 @@
 #define MAP_H
 
 #include <SDL/SDL.h>
+#include "helper.h"
 
 #define true 1
 #define false 0
@@ -28,12 +29,13 @@
 
 #define MAP_XY(x,y) ((y * MAP_WIDTH) + x)
 
-#define TILE_COUNT 4
+#define TILE_COUNT 5
 
 #define TILE_FLOOR 0
 #define TILE_WALL 1
-#define TILE_DOOR 2
-#define TILE_ROOM 3
+#define TILE_ROOM 2
+#define TILE_O_DOOR 3
+#define TILE_C_DOOR 4
 
 typedef int bool;
 
@@ -70,6 +72,11 @@ extern void set_Seen(map *_map, int x, int y, bool set);
 extern void set_Occupied(map *_map, int x, int y, bool set);
 extern void set_Lit(map *_map, int x, int y, bool set);
 
+extern _Point get_RandWalkable(map *_map);
+
+extern int count_SurroundingTypes(map *_map, int x, int y, int tiletype);
+extern _Point *get_SurroundingTypeLocs(map *_map, int x, int y, int numLocs, int tiletype);
+extern void open_Door(map *_map, int x, int y);
 
 extern tileDefs *init_tileDefs(void);
 extern void free_tileDefs(tileDefs *TD);

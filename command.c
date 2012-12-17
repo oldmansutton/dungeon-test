@@ -65,6 +65,9 @@ bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_p
 		case SDLK_KP9:	/* Move NorthEast */
 						update = move_Player(1, -1, _map, _TD, _player);
 						break;
+		case SDLK_o:	/* Open a door */
+						update = cmd_openDoor(_map, _player);
+						break;
 		default:		break;
 	}
 	return update;
@@ -79,6 +82,11 @@ bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player)
 	{
 		return false;
 	}
+	if (get_TileType(_map, nx, ny) == TILE_C_DOOR)
+	{
+		/* TO DO: Make config option for auto-open-door */
+		open_Door(_map, nx, ny);
+	}
 	if (tile_Walkable (_map, nx, ny, _TD))
 	{
 		_player->x = nx;
@@ -87,3 +95,33 @@ bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player)
 	}
 	return false;
 }
+
+bool cmd_openDoor(map *_map, Player *_player)
+{
+	int numDoors = count_SurroundingTypes(_map, _player->x, _player->y, TILE_C_DOOR);
+	if (numDoors < 1)
+	{
+		return false;
+	}
+	_Point *_doorLocs;
+	_doorLocs = get_SurroundingTypeLocs(_map, _player->x, _player->y, numDoors, TILE_C_DOOR);
+	int i;
+	if (_doorLocs == NULL)
+	{
+		return false;
+	}
+	if (numDoors == 1)
+	{
+		open_Door(_map, _doorLocs[0].x, _doorLocs[0].y);
+		free(_doorLocs);
+		return true;
+	}		
+	for (i = 0; i < numDoors; i++)
+	{
+		open_Door(_map, _doorLocs[i].x, _doorLocs[i].y);
+	}
+	free(_doorLocs);
+	return true;
+}
+		
+		

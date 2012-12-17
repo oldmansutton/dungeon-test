@@ -43,7 +43,7 @@ command.o: command.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
  /usr/include/SDL/SDL_video.h /usr/include/SDL/SDL_joystick.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
  /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h map.h \
- player.h command.h
+ helper.h player.h command.h
 
 /usr/include/SDL/SDL.h:
 
@@ -192,6 +192,8 @@ command.o: command.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
 /usr/include/SDL/SDL_version.h:
 
 map.h:
+
+helper.h:
 
 player.h:
 

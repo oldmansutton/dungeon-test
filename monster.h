@@ -1,4 +1,4 @@
-// command.h
+// monster.h
 //
 // Copyright (C) 2012 - Ryan Sutton
 //
@@ -15,15 +15,22 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
-#ifndef COMMAND_H
-#define COMMAND_H
+#ifndef MONSTER_H
+#define MONSTER_H
 
 #include <SDL/SDL.h>
-#include "map.h"
-#include "player.h"
 
-bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_player);
-extern bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player);
-extern bool cmd_openDoor(map *_map, Player *_player);
+typedef struct 
+{
+	int x;
+	int y;
+	
+	SDL_Surface *Image;
+} Monster;
+
+extern Monster *new_Monster(char *image);
+extern void free_Monster(Monster *_monster);
+
+extern Monster *get_Monster();
 
 #endif

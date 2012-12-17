@@ -30,6 +30,4 @@ typedef struct
 extern Player *new_Player(void);
 extern void free_Player(Player *_player);
 
-extern
-
 #endif

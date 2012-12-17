@@ -64,6 +64,7 @@ void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface)
 			int i = get_TileType (_map, map_x + x, map_y + y);
 			if ((map_y + 9) * 32 >= 0 && (map_y + 9) * 32 <= 576 && (map_x + 12) * 32 >= 0 && (map_x + 12) * 32 <= 768)
 			{
+				apply_surface ((map_x + 12) * 32, (map_y + 9) * 32, _TD[0].Image, _surface);
 				apply_surface ((map_x + 12) * 32, (map_y + 9) * 32, _TD[i].Image, _surface);
 				if (map_Visible(_map, map_x + x, map_y + y) != true)
 				{
@@ -107,7 +108,8 @@ void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surf
 				int i = get_TileType(_map,x,y);
 				switch(i)
 				{
-					case TILE_DOOR:		apply_surface (808 + (x * 3), 414 + (y * 3), sp_door, _surface);
+					case TILE_O_DOOR:
+					case TILE_C_DOOR:	apply_surface (808 + (x * 3), 414 + (y * 3), sp_door, _surface);
 										break;
 					case TILE_WALL: 	apply_surface (808 + (x * 3), 414 + (y * 3), sp_wall, _surface);
 										break;

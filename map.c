@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include "helper.h"
 #include "graphics.h"
 #include "map.h"
 
@@ -53,10 +54,11 @@ void print_map(map *_map)
 		{
 			switch(get_TileType(_map,x,y))
 			{
-				case TILE_WALL:  putchar('#'); break;
+				case TILE_WALL:  	putchar('#'); break;
 				case TILE_ROOM:
-				case TILE_FLOOR: putchar('.'); break;
-				case TILE_DOOR:	  putchar('+'); break;
+				case TILE_FLOOR: 	putchar('.'); break;
+				case TILE_C_DOOR:	putchar('_'); break;
+				case TILE_O_DOOR:	putchar('+'); break;
 			}
 		}
         putchar('\n');
@@ -121,6 +123,95 @@ void set_Lit(map *_map, int x, int y, bool set)
 	_map[MAP_XY(x,y)].Lit = set;
 }
 
+/* Pick a random (x,y) on the map that is Walkable */
+_Point get_RandWalkable(map *_map)
+{
+	bool validPXY = false;
+	_Point coords;
+	while (!validPXY) /* Find a random place to stand */
+	{
+		int rpx, rpy;
+		rpx = randr(1,MAP_WIDTH - 1);
+		rpy = randr(1,MAP_HEIGHT - 1);
+		/* Test to make sure we're on an unoccupied floor tile */
+		if (get_TileType(_map,rpx,rpy) == TILE_FLOOR && map_Occupied(_map,rpx,rpy) == false)
+		{
+			validPXY = true;
+			coords.x = rpx;
+			coords.y = rpy;
+		}
+	}
+	/* Return random (x,y) _Point struct */
+	return coords;
+}
+
+/* Return how many doors immediately surround point (x,y) */
+int count_SurroundingTypes(map *_map, int x, int y, int tiletype)
+{
+	int xi, yi;
+	int numtypes = 0;
+	for (yi = -1; yi <= 1; yi++)
+	{
+		for (xi = -1; xi <= 1; xi++)
+		{
+			if (x + xi < 0 || y + yi < 0 || x + xi >= MAP_WIDTH || y + yi >= MAP_HEIGHT)		
+			{
+				continue;
+			}
+			if (x == xi && y == yi)
+			{
+				continue;
+			}
+			int test = get_TileType(_map,x + xi,y + yi);
+			if (test == tiletype)
+			{
+				numtypes++;
+			}
+		}
+	}
+	return numtypes;
+}
+
+_Point *get_SurroundingTypeLocs(map *_map, int x, int y, int numLocs, int tiletype)
+{
+	_Point *_typelocs = (_Point*)malloc(sizeof(_Point) * numLocs);
+	int xi, yi;
+	int index = 0;
+	for (yi = -1; yi <= 1; yi++)
+	{
+		for (xi = -1; xi <= 1; xi++)
+		{
+			if (x + xi < 0 || y + yi < 0 || x + xi >= MAP_WIDTH || y + yi >= MAP_HEIGHT)		
+			{
+				continue;
+			}
+			if (x == xi && y == yi)
+			{
+				continue;
+			}
+			if (get_TileType(_map, x + xi, y + yi) == tiletype)	
+			{
+				_typelocs[index].x = x + xi;
+				_typelocs[index].y = y + yi;
+				index++;
+			}
+		}
+	}
+	return _typelocs;
+}
+	
+
+void open_Door(map *_map, int x, int y)
+{
+	if (get_TileType(_map, x, y) != TILE_C_DOOR)
+	{
+		return;
+	}
+	/* TO DO:  Logic for locks, stuck doors, secret doors, etc */
+	set_TileType(_map,x,y,TILE_O_DOOR);
+}
+	
+/* Return the initialized set of Tile Definitions for the game */	
 tileDefs *init_tileDefs(void)
 {
 	tileDefs *TD = (tileDefs*)malloc(sizeof(tileDefs) * TILE_COUNT);
@@ -139,15 +230,20 @@ tileDefs *init_tileDefs(void)
 					TD[i].Walkable = false;
 					TD[i].Permanent = true;
 					break;
-			case 2:	TD[i].Name = "Door";
-					TD[i].Image = load_image("door.png");
-					TD[i].Walkable = true;
-					TD[i].Permanent = false;
-					break;
-			case 3:	TD[i].Name = "Room Floor";
+			case 2:	TD[i].Name = "Room Floor";
 					TD[i].Image = load_image("floor.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = true;
+					break;
+			case 3:	TD[i].Name = "Open Door";
+					TD[i].Image = load_image("opendoor.png");
+					TD[i].Walkable = true;
+					TD[i].Permanent = false;
+					break;
+			case 4:	TD[i].Name = "Closed Door";
+					TD[i].Image = load_image("closedoor.png");
+					TD[i].Walkable = false;
+					TD[i].Permanent = false;
 					break;
 		}
 	}

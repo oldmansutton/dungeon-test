@@ -44,8 +44,8 @@ map.o: map.c /usr/include/stdlib.h /usr/include/features.h \
  /usr/include/SDL/SDL_video.h /usr/include/SDL/SDL_joystick.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
  /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
- /usr/include/SDL/SDL_image.h /usr/include/SDL/SDL.h graphics.h map.h \
- player.h
+ /usr/include/SDL/SDL_image.h /usr/include/SDL/SDL.h helper.h graphics.h \
+ map.h player.h
 
 /usr/include/stdlib.h:
 
@@ -196,6 +196,8 @@ map.o: map.c /usr/include/stdlib.h /usr/include/features.h \
 /usr/include/SDL/SDL_image.h:
 
 /usr/include/SDL/SDL.h:
+
+helper.h:
 
 graphics.h:
 

@@ -55,7 +55,8 @@ PROGRAMS = $(bin_PROGRAMS)
 am_dungeon_test_OBJECTS = command.$(OBJEXT) generate.$(OBJEXT) \
 	graphics.$(OBJEXT) helper.$(OBJEXT) main.$(OBJEXT) \
 	map.$(OBJEXT) player.$(OBJEXT) queue.$(OBJEXT) \
-	roomer.$(OBJEXT) tunneler.$(OBJEXT) vision.$(OBJEXT)
+	roomer.$(OBJEXT) tunneler.$(OBJEXT) vision.$(OBJEXT) \
+	monster.$(OBJEXT)
 dungeon_test_OBJECTS = $(am_dungeon_test_OBJECTS)
 dungeon_test_LDADD = $(LDADD)
 AM_V_lt = $(am__v_lt_@AM_V@)
@@ -251,7 +252,9 @@ dungeon_test_SOURCES = \
 	tunneler.c \
 	tunneler.h \
 	vision.c \
-	vision.h
+	vision.h \
+	monster.c \
+	monster.h
 
 dungeon_test_LDFLAGS = \
 	-lSDL \
@@ -370,6 +373,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/helper.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/map.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/monster.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/player.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/queue.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/roomer.Po@am__quote@

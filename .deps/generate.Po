@@ -52,7 +52,7 @@ generate.o: generate.c /usr/include/stdio.h /usr/include/features.h \
  /usr/include/SDL/SDL_keysym.h /usr/include/SDL/SDL_mouse.h \
  /usr/include/SDL/SDL_video.h /usr/include/SDL/SDL_joystick.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
- /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h
+ /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h helper.h
 
 /usr/include/stdio.h:
 
@@ -227,3 +227,5 @@ map.h:
 /usr/include/SDL/SDL_timer.h:
 
 /usr/include/SDL/SDL_version.h:
+
+helper.h:

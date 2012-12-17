@@ -139,14 +139,21 @@ void gen_Dungeon(map *_map, int lifeMin, int lifeMax, int turnMin, int turnMax, 
 				chkz = 1;
 				for (zz = -1; zz <= 1; zz++)
 				{
-					if (get_TileType(_map,xc + xdir + (ydir * zz),yc + ydir + (xdir * zz)) == TILE_DOOR)
+					int TT;
+					TT = get_TileType(_map,xc + xdir + (ydir * zz),yc + ydir + (xdir * zz));
+					if (TT == TILE_O_DOOR || TT == TILE_C_DOOR)
 					{
 						chkz = 0;
 					}
 				}
 				if (chkz == 1 && rand() % 100 < chanceDoor)
 				{
-					set_TileType(_map,xc + xdir,yc + ydir,TILE_DOOR);
+					if (rand() % 100 < 75)
+					{
+						set_TileType(_map, xc + xdir, yc + ydir, TILE_C_DOOR);
+					} else {
+						set_TileType(_map, xc + xdir, yc + ydir, TILE_O_DOOR);
+					}
 				}
 				validMove = 0;
 			}
@@ -246,7 +253,12 @@ void gen_Dungeon(map *_map, int lifeMin, int lifeMax, int turnMin, int turnMax, 
 									cntDug++;
 								}
 							}
-							set_TileType(_map,roomsp->doorX,roomsp->doorY,TILE_DOOR);
+							if (rand() % 100 < 75)
+							{
+								set_TileType(_map,roomsp->doorX,roomsp->doorY,TILE_C_DOOR);
+							} else {
+								set_TileType(_map,roomsp->doorX,roomsp->doorY,TILE_O_DOOR);
+							}
 							i_bnd = chk_bnd + 1;
 						}
 						free(crn);

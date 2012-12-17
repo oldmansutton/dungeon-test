@@ -44,7 +44,7 @@ player.o: player.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
  /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
  /usr/include/SDL/SDL_image.h /usr/include/SDL/SDL.h graphics.h map.h \
- player.h
+ helper.h player.h
 
 /usr/include/SDL/SDL.h:
 
@@ -199,5 +199,7 @@ player.o: player.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
 graphics.h:
 
 map.h:
+
+helper.h:
 
 player.h:

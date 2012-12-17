@@ -67,20 +67,10 @@ int main()
 	Player *_player;
 	_player = new_Player();
 
-	bool validPXY = false;
-
-	while (!validPXY) /* Find the player a random place to stand */
-	{
-		int rpx, rpy;
-		rpx = randr(1,MAP_WIDTH - 1);
-		rpy = randr(1,MAP_HEIGHT - 1);
-		if (get_TileType(_map,rpx,rpy) == TILE_FLOOR)
-		{
-			validPXY = true;
-			_player->x = rpx;
-			_player->y = rpy;
-		}
-	}
+	_Point rCoords;
+	rCoords = get_RandWalkable(_map);
+	_player->x = rCoords.x;
+	_player->y = rCoords.y;
 
 	draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
 	draw_mini_map(_map, _TileDefs, _player, _screen);

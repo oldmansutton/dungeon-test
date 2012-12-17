@@ -32,7 +32,9 @@ dungeon_test_SOURCES = \
 	tunneler.c \
 	tunneler.h \
 	vision.c \
-	vision.h
+	vision.h \
+	monster.c \
+	monster.h
 
 dungeon_test_LDFLAGS =  \
 	-lSDL \

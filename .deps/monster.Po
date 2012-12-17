@@ -1,4 +1,4 @@
-graphics.o: graphics.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
+monster.o: monster.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
  /usr/include/SDL/SDL_stdinc.h /usr/include/SDL/SDL_config.h \
  /usr/include/SDL/SDL_platform.h /usr/include/i386-linux-gnu/sys/types.h \
  /usr/include/features.h /usr/include/i386-linux-gnu/bits/predefs.h \
@@ -42,9 +42,8 @@ graphics.o: graphics.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
  /usr/include/SDL/SDL_keysym.h /usr/include/SDL/SDL_mouse.h \
  /usr/include/SDL/SDL_video.h /usr/include/SDL/SDL_joystick.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
- /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
- /usr/include/SDL/SDL_image.h /usr/include/SDL/SDL.h vision.h map.h \
- helper.h player.h graphics.h
+ /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h graphics.h \
+ map.h helper.h player.h monster.h
 
 /usr/include/SDL/SDL.h:
 
@@ -192,11 +191,7 @@ graphics.o: graphics.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
 
 /usr/include/SDL/SDL_version.h:
 
-/usr/include/SDL/SDL_image.h:
-
-/usr/include/SDL/SDL.h:
-
-vision.h:
+graphics.h:
 
 map.h:
 
@@ -204,4 +199,4 @@ helper.h:
 
 player.h:
 
-graphics.h:
+monster.h:
