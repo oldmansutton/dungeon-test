@@ -29,6 +29,9 @@
 
 #define MAP_XY(x,y) ((y * MAP_WIDTH) + x)
 
+#define TILE_WIDTH 32
+#define TILE_HEIGHT 32
+
 #define TILE_COUNT 5
 
 #define TILE_FLOOR 0

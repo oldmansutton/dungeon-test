@@ -18,6 +18,15 @@
 #ifndef GRAPHICS_H
 #define GRAPHICS_H
 
+#define FPS 30
+#define FPMS (1000 / FPS)
+
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 608
+
+#define VIEW_WIDTH 800
+#define VIEW_HEIGHT 608
+
 #include <SDL/SDL.h>
 #include "map.h"
 #include "player.h"

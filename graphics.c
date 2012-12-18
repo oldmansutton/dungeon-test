@@ -58,21 +58,21 @@ void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface)
 		{
 			if (y + map_y < 0 || x + map_x < 0 || y + map_y > MAP_HEIGHT - 1 || x + map_x > MAP_WIDTH - 1)
 			{
-				apply_surface((map_x + 12) * 32, (map_y + 9) * 32,  unseen, _surface);
+				apply_surface((map_x + 12) * TILE_WIDTH, (map_y + 9) * TILE_HEIGHT,  unseen, _surface);
 				continue;
 			}
 			int i = get_TileType (_map, map_x + x, map_y + y);
-			if ((map_y + 9) * 32 >= 0 && (map_y + 9) * 32 <= 576 && (map_x + 12) * 32 >= 0 && (map_x + 12) * 32 <= 768)
+			if ((map_y + 9) * TILE_HEIGHT >= 0 && (map_y + 9) * TILE_HEIGHT <= VIEW_HEIGHT - TILE_HEIGHT && (map_x + 12) * TILE_WIDTH >= 0 && (map_x + 12) * TILE_WIDTH <= VIEW_WIDTH - TILE_WIDTH)
 			{
-				apply_surface ((map_x + 12) * 32, (map_y + 9) * 32, _TD[0].Image, _surface);
-				apply_surface ((map_x + 12) * 32, (map_y + 9) * 32, _TD[i].Image, _surface);
+				apply_surface ((map_x + 12) * TILE_WIDTH, (map_y + 9) * TILE_HEIGHT, _TD[0].Image, _surface);
+				apply_surface ((map_x + 12) * TILE_WIDTH, (map_y + 9) * TILE_HEIGHT, _TD[i].Image, _surface);
 				if (map_Visible(_map, map_x + x, map_y + y) != true)
 				{
 					if (map_Seen(_map, map_x + x, map_y + y) == true)
 					{
-						apply_surface((map_x + 12) * 32, (map_y + 9) * 32, unvisible, _surface);
+						apply_surface((map_x + 12) * TILE_WIDTH, (map_y + 9) * TILE_HEIGHT, unvisible, _surface);
 					} else {
-						apply_surface((map_x + 12) * 32, (map_y + 9) * 32, unseen, _surface);
+						apply_surface((map_x + 12) * TILE_WIDTH, (map_y + 9) * TILE_HEIGHT, unseen, _surface);
 					}
 				} 
 			}
