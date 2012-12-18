@@ -41,6 +41,7 @@ player.o: /home/oldmansutton/src/dungeon-test/player.c \
  /usr/include/SDL/SDL_image.h /usr/include/SDL/SDL.h \
  /home/oldmansutton/src/dungeon-test/graphics.h \
  /home/oldmansutton/src/dungeon-test/map.h \
+ /home/oldmansutton/src/dungeon-test/helper.h \
  /home/oldmansutton/src/dungeon-test/player.h
 
 /usr/include/SDL/SDL.h:
@@ -182,5 +183,7 @@ player.o: /home/oldmansutton/src/dungeon-test/player.c \
 /home/oldmansutton/src/dungeon-test/graphics.h:
 
 /home/oldmansutton/src/dungeon-test/map.h:
+
+/home/oldmansutton/src/dungeon-test/helper.h:
 
 /home/oldmansutton/src/dungeon-test/player.h:

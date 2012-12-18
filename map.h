@@ -76,7 +76,9 @@ extern _Point get_RandWalkable(map *_map);
 
 extern int count_SurroundingTypes(map *_map, int x, int y, int tiletype);
 extern _Point *get_SurroundingTypeLocs(map *_map, int x, int y, int numLocs, int tiletype);
+extern void swap_ifTileType(map *_map, int x, int y, int ifType, int toType);
 extern void open_Door(map *_map, int x, int y);
+extern void close_Door(map *_map, int x, int y);
 
 extern tileDefs *init_tileDefs(void);
 extern void free_tileDefs(tileDefs *TD);

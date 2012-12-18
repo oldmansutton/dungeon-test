@@ -40,6 +40,7 @@ map.o: /home/oldmansutton/src/dungeon-test/map.c /usr/include/stdlib.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
  /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
  /usr/include/SDL/SDL_image.h /usr/include/SDL/SDL.h \
+ /home/oldmansutton/src/dungeon-test/helper.h \
  /home/oldmansutton/src/dungeon-test/graphics.h \
  /home/oldmansutton/src/dungeon-test/map.h \
  /home/oldmansutton/src/dungeon-test/player.h
@@ -179,6 +180,8 @@ map.o: /home/oldmansutton/src/dungeon-test/map.c /usr/include/stdlib.h \
 /usr/include/SDL/SDL_image.h:
 
 /usr/include/SDL/SDL.h:
+
+/home/oldmansutton/src/dungeon-test/helper.h:
 
 /home/oldmansutton/src/dungeon-test/graphics.h:
 

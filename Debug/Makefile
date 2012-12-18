@@ -117,7 +117,7 @@ AR = ar
 AUTOCONF = ${SHELL} /home/oldmansutton/src/dungeon-test/missing --run autoconf
 AUTOHEADER = ${SHELL} /home/oldmansutton/src/dungeon-test/missing --run autoheader
 AUTOMAKE = ${SHELL} /home/oldmansutton/src/dungeon-test/missing --run automake-1.11
-AWK = gawk
+AWK = mawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
 CFLAGS = -g -O0

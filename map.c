@@ -200,15 +200,25 @@ _Point *get_SurroundingTypeLocs(map *_map, int x, int y, int numLocs, int tilety
 	return _typelocs;
 }
 	
-
-void open_Door(map *_map, int x, int y)
+void swap_ifTileType(map *_map, int x, int y, int ifType, int toType)
 {
-	if (get_TileType(_map, x, y) != TILE_C_DOOR)
+	if (get_TileType(_map, x, y) != ifType)
 	{
 		return;
 	}
+	set_TileType(_map, x, y, toType);
+}
+
+void open_Door(map *_map, int x, int y)
+{
 	/* TO DO:  Logic for locks, stuck doors, secret doors, etc */
-	set_TileType(_map,x,y,TILE_O_DOOR);
+	swap_ifTileType(_map, x, y, TILE_C_DOOR, TILE_O_DOOR);
+}
+
+void close_Door(map *_map, int x, int y)
+{
+	/* TO DO:  Check door isn't blocked before closing */
+	swap_ifTileType(_map, x, y, TILE_O_DOOR, TILE_C_DOOR);
 }
 	
 /* Return the initialized set of Tile Definitions for the game */	

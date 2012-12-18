@@ -66,8 +66,9 @@ bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_p
 						update = move_Player(1, -1, _map, _TD, _player);
 						break;
 		case SDLK_o:	/* Open a door */
-						update = cmd_openDoor(_map, _player);
+						update = cmd_actionDoor(_map, _player, A_OPEN_DOOR);
 						break;
+		case SDLK_c:	update = cmd_actionDoor(_map, _player, A_CLOSE_DOOR);
 		default:		break;
 	}
 	return update;
@@ -96,32 +97,41 @@ bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player)
 	return false;
 }
 
-bool cmd_openDoor(map *_map, Player *_player)
+bool cmd_actionDoor(map *_map, Player *_player, int caseOpenClose)
 {
-	int numDoors = count_SurroundingTypes(_map, _player->x, _player->y, TILE_C_DOOR);
+	int tiletype;
+	switch (caseOpenClose)
+	{
+		case A_OPEN_DOOR:	tiletype = TILE_C_DOOR; break;
+		case A_CLOSE_DOOR:	tiletype = TILE_O_DOOR; break;
+	}
+	int numDoors = count_SurroundingTypes(_map, _player->x, _player->y, tiletype);
+
 	if (numDoors < 1)
 	{
 		return false;
 	}
+	
 	_Point *_doorLocs;
-	_doorLocs = get_SurroundingTypeLocs(_map, _player->x, _player->y, numDoors, TILE_C_DOOR);
+	_doorLocs = get_SurroundingTypeLocs(_map, _player->x, _player->y, numDoors, tiletype);
+
 	int i;
+
 	if (_doorLocs == NULL)
 	{
 		return false;
 	}
-	if (numDoors == 1)
-	{
-		open_Door(_map, _doorLocs[0].x, _doorLocs[0].y);
-		free(_doorLocs);
-		return true;
-	}		
 	for (i = 0; i < numDoors; i++)
 	{
-		open_Door(_map, _doorLocs[i].x, _doorLocs[i].y);
+		if (caseOpenClose == A_OPEN_DOOR)
+		{
+			open_Door(_map, _doorLocs[i].x, _doorLocs[i].y);
+		} else {
+			close_Door(_map, _doorLocs[i].x, _doorLocs[i].y);
+		}
 	}
+
 	free(_doorLocs);
 	return true;
 }
-		
 		

@@ -22,8 +22,11 @@
 #include "map.h"
 #include "player.h"
 
+#define A_OPEN_DOOR 	0
+#define A_CLOSE_DOOR 	1
+
 bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_player);
 extern bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player);
-extern bool cmd_openDoor(map *_map, Player *_player);
+extern bool cmd_actionDoor(map *_map, Player *_player, int caseOpenClose);
 
 #endif

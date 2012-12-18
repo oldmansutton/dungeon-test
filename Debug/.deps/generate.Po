@@ -50,7 +50,8 @@ generate.o: /home/oldmansutton/src/dungeon-test/generate.c \
  /usr/include/SDL/SDL_keysym.h /usr/include/SDL/SDL_mouse.h \
  /usr/include/SDL/SDL_video.h /usr/include/SDL/SDL_joystick.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
- /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h
+ /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
+ /home/oldmansutton/src/dungeon-test/helper.h
 
 /usr/include/stdio.h:
 
@@ -209,3 +210,5 @@ generate.o: /home/oldmansutton/src/dungeon-test/generate.c \
 /usr/include/SDL/SDL_timer.h:
 
 /usr/include/SDL/SDL_version.h:
+
+/home/oldmansutton/src/dungeon-test/helper.h:
