@@ -8,7 +8,7 @@ Shortcut=dungeon-test//dungeon_test
 Expand=dungeon-test
 
 [File Loader]
-Files=../../graphics.c#70%%%../../map.c#107%%%../../vision.c#34%%%../../helper.c#81%%%../../map.h#1
+Files=../../command.c#116%%%../../map.c#175%%%../../map.h#78%%%../../helper.c#1%%%../../command.h#20
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n
