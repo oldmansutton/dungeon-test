@@ -90,6 +90,8 @@ bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player)
 	}
 	if (tile_Walkable (_map, nx, ny, _TD))
 	{
+		set_Occupied(_map, _player->x, _player->y, false);
+		set_Occupied(_map, nx, ny, false);
 		_player->x = nx;
 		_player->y = ny;
 		return true;

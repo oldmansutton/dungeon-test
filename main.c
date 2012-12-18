@@ -72,6 +72,8 @@ int main()
 	_player->x = rCoords.x;
 	_player->y = rCoords.y;
 
+	set_Occupied(_map, _player->x, _player->y, true);
+
 	draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
 	draw_mini_map(_map, _TileDefs, _player, _screen);
 	apply_surface(12 * 32, 9 * 32,_player->Image,_screen);
