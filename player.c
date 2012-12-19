@@ -34,3 +34,10 @@ void free_Player(Player *_player)
 	SDL_FreeSurface(_player->Image);
 	free(_player);
 }
+
+void set_PlayerState_Moving(Player *_player, bool moving, int byX, int byY)
+{
+	_player->State.isMoving = moving;
+	_player->State.MoveByX = byX;
+	_player->State.MoveByY = byY;
+}

@@ -22,12 +22,30 @@
 
 typedef struct
 {
+	bool MoveNW;
+	bool MoveN;
+	bool MoveNE;
+	bool MoveW;
+	bool MoveE;
+	bool MoveSW;
+	bool MoveS;
+	bool MoveSE;
+	bool isMoving;
+	int MoveByX;
+	int MoveByY;
+} PlayerState;
+
+typedef struct
+{
 	int x;
 	int y;
 	SDL_Surface *Image;
+	PlayerState State;
 } Player;
 
 extern Player *new_Player(void);
 extern void free_Player(Player *_player);
+
+extern void set_PlayerState_Moving(Player *_player, bool moving, int byX, int byY);
 
 #endif

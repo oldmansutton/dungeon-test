@@ -78,15 +78,28 @@ int main()
 	draw_mini_map(_map, _TileDefs, _player, _screen);
 	apply_surface(12 * 32, 9 * 32,_player->Image,_screen);
 
+	Keys *_keys = init_Keys();
+	
 	bool updateMap = true;
+
+	Uint32 lasttime = SDL_GetTicks();
+	Uint32 dtime;
 	
 	while (running)
 	{
-		if (updateMap)
+		dtime = SDL_GetTicks() - lasttime;
+		updateMap = get_Input(&running, _map, _TileDefs, _player);
+		bool playerMoved = false;
+		if (_player->State.isMoving && dtime >= 250)
+		{
+			playerMoved = move_Player(_player->State.MoveByX, _player->State.MoveByY, _map, _TileDefs, _player);
+			lasttime = SDL_GetTicks();
+		}
+		if (updateMap || playerMoved)
 		{
 			draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
 			draw_mini_map(_map, _TileDefs, _player, _screen);
-			apply_surface(12 * 32, 9 * 32, _player->Image, _screen);
+			apply_surface(12 * TILE_WIDTH, 9 * TILE_HEIGHT, _player->Image, _screen);
 			errlvl = show_surface(_screen);
 			if (errlvl != 0)
 			{
@@ -94,18 +107,6 @@ int main()
 			}
 			updateMap = false;
 		}
-		SDL_Event event;
-	    while (SDL_PollEvent(&event))
-        {
-            switch (event.type)
-            {
-				case SDL_KEYDOWN:	updateMap = processCommand(&event.key, _map, _TileDefs, _player);
-									break;
-        	    case SDL_QUIT:		running = false; 
-                					break;
-            	default:			break;
-            }
-        }
 	}
 
 	SDL_FreeSurface(_screen);
