@@ -84,17 +84,26 @@ int main()
 
 	Uint32 lasttime = 0;
 	Uint32 dtime;
+
+	errlvl = show_surface(_screen);
+	if (errlvl != 0)
+	{
+		exit(errlvl);
+	}
 	
 	while (running)
 	{
 		dtime = SDL_GetTicks() - lasttime;
-		bool playerMoved = false;
-		if (_player->State.isMoving && dtime >= 250)
+		updateMap = processCommand(_keys, _map, _player);
+		if (updateMap && _player->State.isMoving && dtime >= 250)
 		{
-			playerMoved = move_Player(_player->State.MoveByX, _player->State.MoveByY, _map, _TileDefs, _player);
-			lasttime = SDL_GetTicks();
+			updateMap = move_Player(_player->State.MoveByX, _player->State.MoveByY, _map, _TileDefs, _player);
+			if (updateMap)
+			{
+				lasttime = SDL_GetTicks();
+			}
 		}
-		if (updateMap || playerMoved)
+		if (updateMap)
 		{
 			draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
 			draw_mini_map(_map, _TileDefs, _player, _screen);
@@ -106,7 +115,7 @@ int main()
 			}
 			updateMap = false;
 		}
-		updateMap = get_Input(&running, _map, _TileDefs, _player);
+		get_Input(&running, _keys);
 	}
 
 	SDL_FreeSurface(_screen);

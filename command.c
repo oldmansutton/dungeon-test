@@ -31,128 +31,122 @@ Keys *init_Keys(void)
 	return _keys;
 }
 
-bool get_Input(bool *running, map *_map, tileDefs *_TD, Player *_player)
+void get_Input(bool *running, Keys *_keys)
 {
-	bool updateMap  = false;
 	SDL_Event event;
     while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
 		{
-			case SDL_KEYDOWN:	updateMap = processCommand(&event.key, _map, _TD, _player);
+			case SDL_KEYDOWN:	_keys[event.key.keysym.sym] = true;
 								break;
-			case SDL_KEYUP:	    set_CommandFlags(&event.key, _player);
+			case SDL_KEYUP:	    _keys[event.key.keysym.sym] = false;
 								break;
        	    case SDL_QUIT:		*running = false; 
                					break;
            	default:			break;
 		}
 	}
-	return updateMap;
 }
 
-void set_CommandFlags(SDL_KeyboardEvent *key, Player *_player)
+bool set_MovementFlags(Keys *_keys, Player *_player)
 {
-	_player->State.isMoving = false;
-	switch (key->keysym.sym)
+	bool isMoving = false;
+	set_PlayerState_Moving(_player, false, 0, 0);
+	if (_keys[SDLK_1] || _keys[SDLK_KP1])
 	{
-		case SDLK_1:
-		case SDLK_KP1:	_player->State.MoveSW = false;
-						break;
-		case SDLK_2:
-		case SDLK_KP2:	_player->State.MoveS = false;
-						break;
-		case SDLK_3:
-		case SDLK_KP3:	_player->State.MoveSE = false;
-						break;
-		case SDLK_4:
-		case SDLK_KP4:	_player->State.MoveW = false;
-						break;
-		case SDLK_6:
-		case SDLK_KP6:	_player->State.MoveE = false;
-						break;
-		case SDLK_7:
-		case SDLK_KP7:	_player->State.MoveNW = false;
-						break;
-		case SDLK_8:
-		case SDLK_KP8:	_player->State.MoveN = false;
-						break;
-		case SDLK_9:
-		case SDLK_KP9:	_player->State.MoveNE = false;
-		default:		break;
+		set_PlayerState_Moving(_player, true, -1, 1);
+		_player->State.MoveSW = true;
+		isMoving = true;
+	} else {
+		_player->State.MoveSW = false;
 	}
+	if (_keys[SDLK_2] || _keys[SDLK_KP2] || _keys[SDLK_DOWN])
+	{
+		set_PlayerState_Moving(_player, true, 0, 1);
+		_player->State.MoveS = true;
+		isMoving = true;
+	} else {
+		_player->State.MoveS = false;
+	}
+	if (_keys[SDLK_3] || _keys[SDLK_KP3])
+	{
+		set_PlayerState_Moving(_player, true, 1, 1);
+		_player->State.MoveSE = true;
+		isMoving = true;
+	} else {
+		_player->State.MoveSE = false;
+	}
+	if (_keys[SDLK_4] || _keys[SDLK_KP4] || _keys[SDLK_LEFT])
+	{
+		set_PlayerState_Moving(_player, true, -1, 0);
+		_player->State.MoveW = true;
+		isMoving = true;
+	} else {
+		_player->State.MoveW = false;
+	}
+	if (_keys[SDLK_6] || _keys[SDLK_KP6] || _keys[SDLK_RIGHT])
+	{
+		set_PlayerState_Moving(_player, true, 1, 0);
+		_player->State.MoveE = true;
+		isMoving = true;
+	} else {
+		_player->State.MoveE = false;
+	}
+	if (_keys[SDLK_7] || _keys[SDLK_KP7])
+	{
+		set_PlayerState_Moving(_player, true, -1, -1);
+		_player->State.MoveNW = true;
+		isMoving = true;
+	} else {
+		_player->State.MoveNW = false;
+	}
+	if (_keys[SDLK_8] || _keys[SDLK_KP8] || _keys[SDLK_UP])
+	{
+		set_PlayerState_Moving(_player, true, 0, -1);
+		_player->State.MoveN = true;
+		isMoving = true;
+	} else {
+		_player->State.MoveN = false;
+	}
+	if (_keys[SDLK_9] || _keys[SDLK_KP9])
+	{
+		set_PlayerState_Moving(_player, true, 1, -1);
+		_player->State.MoveNE = true;
+		isMoving = true;
+	} else {
+		_player->State.MoveNE = false;
+	}
+	return isMoving;
 }
 		
 
-bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_player)
+bool processCommand(Keys *_keys, map *_map, Player *_player)
 {
-	bool update;
-	update = false;
-	
-	switch (key->keysym.sym)
+	if (set_MovementFlags(_keys, _player))
 	{
-		case SDLK_1:
-		case SDLK_KP1:	/* Move SouthWest */
-						set_PlayerState_Moving(_player, true, -1, 1);
-						_player->State.MoveSW = true;
-						update = true;
-						break;
-		case SDLK_2:
-		case SDLK_DOWN:
-		case SDLK_KP2:	/* Move South */
-						set_PlayerState_Moving(_player, true, 0, 1);
-						_player->State.MoveS = true;
-						update = true;
-						break;
-		case SDLK_3:
-		case SDLK_KP3:	/* Move SouthEast */
-						set_PlayerState_Moving(_player, true, 1, 1);
-						_player->State.MoveSE = true;
-						update = true;
-						break;
-		case SDLK_LEFT:
-		case SDLK_4:
-		case SDLK_KP4:	/* Move West */
-						set_PlayerState_Moving(_player, true, -1, 0);
-						_player->State.MoveW = true;
-						update = true;
-						break;
-		case SDLK_5:
-		case SDLK_KP5:	/* Do Nothing */
-						break;
-		case SDLK_6:
-		case SDLK_RIGHT:
-		case SDLK_KP6:	/* Move East */
-						set_PlayerState_Moving(_player, true, 1, 0);
-						_player->State.MoveE = true;
-						update = true;
-						break;
-		case SDLK_7:
-		case SDLK_KP7:	/* Move NorthWest */
-						set_PlayerState_Moving(_player, true, -1, -1);
-						_player->State.MoveNW = true;
-						update = true;
-						break;
-		case SDLK_8:
-		case SDLK_UP:
-		case SDLK_KP8:	/* Move North */
-						set_PlayerState_Moving(_player, true, 0, -1);
-						_player->State.MoveN = true;
-						update = true;
-						break;
-		case SDLK_9:
-		case SDLK_KP9:	/* Move NorthEast */
-						set_PlayerState_Moving(_player, true, 1, -1);
-						_player->State.MoveNE = true;
-						update = true;
-						break;
-		case SDLK_o:	/* Open a door */
-						update = cmd_actionDoor(_map, _player, A_OPEN_DOOR);
-						break;
-		case SDLK_c:	update = cmd_actionDoor(_map, _player, A_CLOSE_DOOR);
-		default:		break;
+		return true;
 	}
-	return update;
+
+	if (_keys[SDLK_o])	/* Open a door */
+	{
+		if (cmd_actionDoor(_map, _player, A_OPEN_DOOR))
+		{
+			return true;
+		} else {
+			return false;
+		}
+	}
+	if (_keys[SDLK_c])	/* Close a door */
+	{
+		if (cmd_actionDoor(_map, _player, A_CLOSE_DOOR))
+		{
+			return true;
+		} else {
+			return false;
+		}
+	}
+	return false;
 }
 
 bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player)
@@ -182,11 +176,15 @@ bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player)
 
 bool cmd_actionDoor(map *_map, Player *_player, int caseOpenClose)
 {
-	int tiletype;
+	int tiletype = -1;
 	switch (caseOpenClose)
 	{
 		case A_OPEN_DOOR:	tiletype = TILE_C_DOOR; break;
 		case A_CLOSE_DOOR:	tiletype = TILE_O_DOOR; break;
+	}
+	if (tiletype < 0)
+	{
+		return false;
 	}
 	int numDoors = count_SurroundingTypes(_map, _player->x, _player->y, tiletype);
 

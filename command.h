@@ -28,9 +28,9 @@
 typedef bool Keys;
 
 extern Keys *init_Keys(void);
-bool get_Input(bool *running, map *_map, tileDefs *_TD, Player *_player);
-void set_CommandFlags(SDL_KeyboardEvent *key, Player *_player);
-bool processCommand(SDL_KeyboardEvent *key, map *_map, tileDefs *_TD, Player *_player);
+extern void get_Input(bool *running, Keys *_keys);
+extern bool set_MovementFlags(Keys *_keys, Player *_player);
+extern bool processCommand(Keys *_keys, map *_map, Player *_player);
 extern bool move_Player(int x, int y, map *_map, tileDefs *_TD, Player *_player);
 extern bool cmd_actionDoor(map *_map, Player *_player, int caseOpenClose);
 
