@@ -4,7 +4,7 @@ Maximized=1
 Geometry=1280x776+0+24
 
 [File Loader]
-Files=../../graphics.c#1%%%../../graphics.h#26%%%../../command.c#107%%%../../command.h#30%%%../../map.c#207%%%../../map.h#81
+Files=../../graphics.c#1%%%../../graphics.h#26%%%../../command.c#32%%%../../command.h#24%%%../../map.c#207%%%../../map.h#81%%%../../main.c#96%%%../../player.h#46%%%../../player.c#43
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n

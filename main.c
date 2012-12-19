@@ -82,13 +82,12 @@ int main()
 	
 	bool updateMap = true;
 
-	Uint32 lasttime = SDL_GetTicks();
+	Uint32 lasttime = 0;
 	Uint32 dtime;
 	
 	while (running)
 	{
 		dtime = SDL_GetTicks() - lasttime;
-		updateMap = get_Input(&running, _map, _TileDefs, _player);
 		bool playerMoved = false;
 		if (_player->State.isMoving && dtime >= 250)
 		{
@@ -107,6 +106,7 @@ int main()
 			}
 			updateMap = false;
 		}
+		updateMap = get_Input(&running, _map, _TileDefs, _player);
 	}
 
 	SDL_FreeSurface(_screen);
