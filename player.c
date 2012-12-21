@@ -25,7 +25,7 @@ Player *new_Player(void)
 	Player *_player = (Player*)malloc(sizeof(Player));
 	_player->x = 0;
 	_player->y = 0;
-	_player->Image = load_image("player.png");
+	_player->Image = load_image("./lib/tiles/player.png");
 	return _player;
 }
 

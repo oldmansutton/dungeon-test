@@ -1,10 +1,14 @@
 
 [Anjuta]
 Maximized=1
-Geometry=1280x776+0+24
+Geometry=959x744+65+24
+
+[Project Manager]
+Shortcut=dungeon-test//dungeon_test
+Expand=dungeon_test
 
 [File Loader]
-Files=../../graphics.c#1%%%../../graphics.h#26%%%../../command.c#32%%%../../command.h#24%%%../../map.c#207%%%../../map.h#81%%%../../main.c#96%%%../../player.h#46%%%../../player.c#43
+Files=../../graphics.c#1%%%../../graphics.h#26%%%../../main.c#96%%%../../player.c#1%%%../../player.h#1
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n

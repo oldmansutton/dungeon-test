@@ -32,6 +32,8 @@ SDL_Surface *load_image(char *filename)
 	{
 		optimizedImage = SDL_DisplayFormatAlpha(loadedImage);
 		SDL_FreeSurface(loadedImage);
+	} else {
+		printf("Could not load\n");
 	}
 
 	return optimizedImage;
@@ -48,8 +50,8 @@ void apply_surface(int x, int y, SDL_Surface *source, SDL_Surface *dest)
 
 void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surface)
 {
-	SDL_Surface *unseen = load_image("unseen.png");
-	SDL_Surface *unvisible = load_image("unvisible.png");
+	SDL_Surface *unseen = load_image("./lib/tiles/unseen.png");
+	SDL_Surface *unvisible = load_image("./lib/tiles/unvisible.png");
 	update_PVision(_map, _TD, x, y, 9);
 	int map_x, map_y;
 	for (map_y = -9; map_y <= 9; map_y++)
@@ -90,11 +92,11 @@ void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surf
 	SDL_Surface *sp_door;
 	SDL_Surface *sp_player;
 	SDL_Surface *sp_unseen;
-	sp_wall = load_image("mini_wall.png");
-	sp_floor = load_image("mini_floor.png");
-	sp_door = load_image("mini_door.png");
-	sp_player = load_image("mini_player.png");
-	sp_unseen = load_image("mini_unseen.png");
+	sp_wall = load_image("./lib/tiles/mini_wall.png");
+	sp_floor = load_image("./lib/tiles/mini_floor.png");
+	sp_door = load_image("./lib/tiles/mini_door.png");
+	sp_player = load_image("./lib/tiles/mini_player.png");
+	sp_unseen = load_image("./lib/tiles/mini_unseen.png");
 	for (y = 0; y < MAP_HEIGHT; y++)
 	{
 		for (x = 0; x < MAP_WIDTH; x++)

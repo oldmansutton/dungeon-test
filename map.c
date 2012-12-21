@@ -231,27 +231,27 @@ tileDefs *init_tileDefs(void)
 		switch(i)
 		{
 			case 0:	TD[i].Name = "Floor";
-					TD[i].Image = load_image("floor.png");
+					TD[i].Image = load_image("./lib/tiles/floor.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = true;
 					break;
 			case 1:	TD[i].Name = "Wall";
-					TD[i].Image = load_image("wall.png");
+					TD[i].Image = load_image("./lib/tiles/wall.png");
 					TD[i].Walkable = false;
 					TD[i].Permanent = true;
 					break;
 			case 2:	TD[i].Name = "Room Floor";
-					TD[i].Image = load_image("floor.png");
+					TD[i].Image = load_image("./lib/tiles/floor.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = true;
 					break;
 			case 3:	TD[i].Name = "Open Door";
-					TD[i].Image = load_image("opendoor.png");
+					TD[i].Image = load_image("./lib/tiles/opendoor.png");
 					TD[i].Walkable = true;
 					TD[i].Permanent = false;
 					break;
 			case 4:	TD[i].Name = "Closed Door";
-					TD[i].Image = load_image("closedoor.png");
+					TD[i].Image = load_image("./lib/tiles/closedoor.png");
 					TD[i].Walkable = false;
 					TD[i].Permanent = false;
 					break;
@@ -270,4 +270,3 @@ void free_tileDefs(tileDefs *TD)
 	}
 	free(TD);
 }
-	
