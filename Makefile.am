@@ -38,5 +38,6 @@ dungeon_test_SOURCES = \
 
 dungeon_test_LDFLAGS =  \
 	-lSDL \
-	-lSDL_image
+	-lSDL_image \
+	-lSDL_ttf
 

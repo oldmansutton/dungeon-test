@@ -21,6 +21,7 @@
 #include <time.h>
 #include <math.h>
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 #include "helper.h"
 #include "map.h"
 #include "command.h"
@@ -51,8 +52,18 @@ int main()
         exit(2);
     }
 
-	SDL_WM_SetCaption("dungeon_test", NULL);
+	if (TTF_Init() == -1)
+	{
+		fprintf(stderr,  "Exiting: (SDL) Cannot initialize fonts\n");
+		exit(10);
+	}
 	
+	TTF_Font *_font = NULL;
+	_font = TTF_OpenFont("./lib/fonts/DroidSansMono.ttf", 12);
+
+	SDL_Surface *_msg = NULL;
+		
+	SDL_WM_SetCaption("dungeon_test", NULL);
 	
 	tileDefs *_TileDefs;
 	_TileDefs = init_tileDefs();
@@ -108,6 +119,7 @@ int main()
 			draw_map(_player->x, _player->y, _map, _TileDefs, _screen);
 			draw_mini_map(_map, _TileDefs, _player, _screen);
 			apply_surface(12 * TILE_WIDTH, 9 * TILE_HEIGHT, _player->Image, _screen);
+			put_text(808, 50, "Testing", _font, _msg, 255, 255, 255, _screen);
 			errlvl = show_surface(_screen);
 			if (errlvl != 0)
 			{
@@ -118,6 +130,7 @@ int main()
 		get_Input(&running, _keys);
 	}
 
+	SDL_FreeSurface(_msg);
 	SDL_FreeSurface(_screen);
 	
 	free_Player(_player);

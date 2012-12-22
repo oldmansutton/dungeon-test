@@ -17,6 +17,7 @@
 
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
 #include "vision.h"
 #include "map.h"
 #include "player.h"
@@ -137,4 +138,17 @@ int show_surface(SDL_Surface *_surface)
 	}
 	return r;
 }
+	
+bool put_text(int x, int y, char *_text, TTF_Font *_font, SDL_Surface *_msg, int red, int green, int blue, SDL_Surface *_screen)
+{
+	SDL_Color textColor = { red, green, blue };
+	_msg = TTF_RenderText_Solid(_font, _text, textColor);
+	if (_msg == NULL)
+	{
+		return false;
+	}
+	apply_surface (x, y, _msg, _screen);
+	return true;
+}
+	
 	

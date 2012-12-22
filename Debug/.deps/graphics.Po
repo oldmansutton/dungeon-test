@@ -39,7 +39,7 @@ graphics.o: /home/oldmansutton/src/dungeon-test/graphics.c \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
  /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
  /usr/include/SDL/SDL_image.h /usr/include/SDL/SDL.h \
- /home/oldmansutton/src/dungeon-test/vision.h \
+ /usr/include/SDL/SDL_ttf.h /home/oldmansutton/src/dungeon-test/vision.h \
  /home/oldmansutton/src/dungeon-test/map.h \
  /home/oldmansutton/src/dungeon-test/helper.h \
  /home/oldmansutton/src/dungeon-test/player.h \
@@ -180,6 +180,8 @@ graphics.o: /home/oldmansutton/src/dungeon-test/graphics.c \
 /usr/include/SDL/SDL_image.h:
 
 /usr/include/SDL/SDL.h:
+
+/usr/include/SDL/SDL_ttf.h:
 
 /home/oldmansutton/src/dungeon-test/vision.h:
 

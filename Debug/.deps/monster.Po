@@ -39,6 +39,7 @@ monster.o: /home/oldmansutton/src/dungeon-test/monster.c \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
  /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
  /home/oldmansutton/src/dungeon-test/graphics.h \
+ /usr/include/SDL/SDL_ttf.h /usr/include/SDL/SDL.h \
  /home/oldmansutton/src/dungeon-test/map.h \
  /home/oldmansutton/src/dungeon-test/helper.h \
  /home/oldmansutton/src/dungeon-test/player.h \
@@ -177,6 +178,10 @@ monster.o: /home/oldmansutton/src/dungeon-test/monster.c \
 /usr/include/SDL/SDL_version.h:
 
 /home/oldmansutton/src/dungeon-test/graphics.h:
+
+/usr/include/SDL/SDL_ttf.h:
+
+/usr/include/SDL/SDL.h:
 
 /home/oldmansutton/src/dungeon-test/map.h:
 
