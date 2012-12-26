@@ -43,8 +43,8 @@ graphics.o: graphics.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
  /usr/include/SDL/SDL_video.h /usr/include/SDL/SDL_joystick.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
  /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
- /usr/include/SDL/SDL_image.h /usr/include/SDL/SDL.h vision.h map.h \
- helper.h player.h graphics.h
+ /usr/include/SDL/SDL_image.h /usr/include/SDL/SDL.h \
+ /usr/include/SDL/SDL_ttf.h vision.h map.h helper.h player.h graphics.h
 
 /usr/include/SDL/SDL.h:
 
@@ -195,6 +195,8 @@ graphics.o: graphics.c /usr/include/SDL/SDL.h /usr/include/SDL/SDL_main.h \
 /usr/include/SDL/SDL_image.h:
 
 /usr/include/SDL/SDL.h:
+
+/usr/include/SDL/SDL_ttf.h:
 
 vision.h:
 

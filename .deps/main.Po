@@ -51,8 +51,9 @@ main.o: main.c /usr/include/stdio.h /usr/include/features.h \
  /usr/include/SDL/SDL_keysym.h /usr/include/SDL/SDL_mouse.h \
  /usr/include/SDL/SDL_video.h /usr/include/SDL/SDL_joystick.h \
  /usr/include/SDL/SDL_quit.h /usr/include/SDL/SDL_loadso.h \
- /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h helper.h \
- map.h command.h player.h graphics.h generate.h
+ /usr/include/SDL/SDL_timer.h /usr/include/SDL/SDL_version.h \
+ /usr/include/SDL/SDL_ttf.h /usr/include/SDL/SDL.h helper.h map.h \
+ command.h player.h graphics.h generate.h
 
 /usr/include/stdio.h:
 
@@ -217,6 +218,10 @@ main.o: main.c /usr/include/stdio.h /usr/include/features.h \
 /usr/include/SDL/SDL_timer.h:
 
 /usr/include/SDL/SDL_version.h:
+
+/usr/include/SDL/SDL_ttf.h:
+
+/usr/include/SDL/SDL.h:
 
 helper.h:
 

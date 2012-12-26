@@ -28,6 +28,7 @@
 #define VIEW_HEIGHT 608
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_ttf.h>
 #include "map.h"
 #include "player.h"
 
@@ -37,5 +38,6 @@ extern void draw_map(int x, int y, map *_map, tileDefs *_TD, SDL_Surface *_surfa
 extern void draw_mini_map(map *_map, tileDefs *_TD, Player *_player, SDL_Surface *_surface);
 
 extern int show_surface(SDL_Surface *_surface);
+extern bool put_text(int x, int y, char *_text, TTF_Font *_font, SDL_Surface *_msg, int red, int green, int blue, SDL_Surface *_screen);
 
 #endif
