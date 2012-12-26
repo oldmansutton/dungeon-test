@@ -62,4 +62,19 @@ void update_PVision(map *_map, tileDefs *_TD, int px, int py, int r)
 		}
 	}
 }
-			
+
+bool in_LineOfSight(int player_x, int player_y, int target_x, int target_y, map *_map, tileDefs *_TD)
+{
+	_Line *_line = new_Line(player_x, player_y, target_x, target_y);
+	int i;
+	for (i = 0; i < _line->num_pts; i++)
+	{
+		int point_x = _line->points[i].x;
+		int point_y = _line->points[i].y;
+		if (tile_Walkable(_map, point_x, point_y, _TD) == false)
+		{
+			return false;
+		}
+	}
+	return true;
+}

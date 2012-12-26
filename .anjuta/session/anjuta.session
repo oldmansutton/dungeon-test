@@ -5,10 +5,10 @@ Geometry=959x744+65+24
 
 [Project Manager]
 Shortcut=dungeon-test//dungeon_test
-Expand=dungeon_test
+Expand=dungeon_test%%%dungeon-test
 
 [File Loader]
-Files=../../graphics.c#1%%%../../graphics.h#26%%%../../main.c#96%%%../../player.c#1%%%../../player.h#1
+Files=../../graphics.c#37%%%../../graphics.h#26%%%../../main.c#96%%%../../player.c#28%%%../../player.h#49%%%../../map.c#249%%%../../map.h#1%%%../../helper.c#1%%%../../vision.c#80%%%../../vision.h#27%%%../../tunneler.c#49%%%../../generate.h#23%%%../../generate.c#51
 
 [Document Manager]
 bookmarks=<?xml version="1.0" encoding="UTF-8"?>\n<bookmarks/>\n

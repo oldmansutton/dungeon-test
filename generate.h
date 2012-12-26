@@ -20,7 +20,7 @@
 
 #include "map.h"
 
-#define CAVERN_CHANCE 18
+#define CAVERN_CHANCE 12
 #define CAVERN_R1 5
 #define CAVERN_R2 2
 #define CAVERN_NOISE 40

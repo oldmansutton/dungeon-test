@@ -48,21 +48,26 @@ void create_Level(map *_map)
 		/* TO DO:  Remove unreachable locations from map (find spot, flood fill, unfilled are walls) */
 	} else {
 		/* TO DO:  Add more dungeon types by tweaking min/max ranges */
-		switch(rand() % 8)
+		switch(rand() % 11)
 		{
 			case 0:
-			case 2:	gen_Dungeon(_map,15,60,10,33,10,40,15,30,2,6,50);
-					break;
+			case 2:		gen_Dungeon(_map,15,60,10,33,10,40,15,30,2,6,50);
+						break;
 			case 1:	
-			case 3:	gen_Dungeon(_map,40,60,0,15,20,20,20,30,2,4,50);
-					break;
-			case 4:	gen_Dungeon(_map,35,35,0,5,40,60,10,25,7,9,20);
-					break;
-			case 5:	gen_Dungeon(_map,10,10,0,0,50,75,0,15,3,3,30);
-					break;
+			case 3:		gen_Dungeon(_map,40,60,0,15,20,20,20,30,2,4,50);
+						break;
+			case 4:		gen_Dungeon(_map,35,35,0,5,40,60,10,25,7,9,20);
+						break;
+			case 5:		gen_Dungeon(_map,10,10,0,0,50,75,0,15,3,3,30);
+						break;
 			case 6:	
-			case 7:	gen_Dungeon(_map,33,33,12,12,33,33,25,25,3,3,25);
-					break;
+			case 7:		gen_Dungeon(_map,33,33,12,12,33,33,25,25,3,3,25);
+						break;
+			case 8:		gen_Dungeon(_map,20,30,10,20,20,25,0,15,5,8,40);
+						break;
+			case 9:
+			case 10:	gen_Dungeon(_map,55,55,20,20,20,20,15,15,3,3,40);
+						break;
 		}
 	}
 }

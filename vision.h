@@ -21,5 +21,6 @@
 #include "map.h"
 
 extern void update_PVision(map *_map, tileDefs *_TD, int x, int y, int r);
+extern bool in_LineOfSight(int player_x, int player_y, int target_x, int target_y, map *_map, tileDefs *_TD);
 
 #endif

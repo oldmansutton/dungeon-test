@@ -16,6 +16,7 @@
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 #include <stdlib.h>
+#include "helper.h"
 #include "tunneler.h"
 
 void tunneler_rand(tunneler *inTunneler, int lifeMin, int lifeMax, int turnMin, int turnMax, int tspMin, int tspMax, int rspMin, int rspMax, int neatMin, int neatMax)
@@ -45,10 +46,10 @@ void tunneler_rand(tunneler *inTunneler, int lifeMin, int lifeMax, int turnMin, 
 		}
 	}
 
-	inTunneler->lifetime = (rand() % (lifeMax + 1 - lifeMin)) + lifeMin;
+	inTunneler->lifetime = randr(lifeMin, lifeMax);
 	inTunneler->age = 0;
-	inTunneler->turnChance = (rand() % (turnMax + 1 - turnMin)) + turnMin;
-	inTunneler->tunnelerSpawn = (rand() % (tspMax + 1 - tspMin)) + tspMin;
-	inTunneler->roomerSpawn = (rand() % (rspMax + 1 - rspMin)) + rspMin;
-	inTunneler->neatness = (rand() % (neatMax + 1 - neatMin)) + neatMin;
+	inTunneler->turnChance = randr(turnMin, turnMax);
+	inTunneler->tunnelerSpawn = randr(tspMin, tspMax);
+	inTunneler->roomerSpawn = randr(rspMin, rspMax);
+	inTunneler->neatness = randr(neatMin, neatMax);
 }
