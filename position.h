@@ -10,6 +10,6 @@ typedef struct
 {
     int x;
     int y;
-}
+} Position;
 
 #endif
