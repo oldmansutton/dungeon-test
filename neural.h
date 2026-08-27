@@ -31,7 +31,9 @@ typedef struct {
     float output[NN_OUTPUT_COUNT];
 } Neural_Network;
 
+void neuralRandomizeParameters(NN_Parameters *parameters);
 void neuralLoadParameters(Neural_Network *network, const NN_Parameters *parameters);
 void neuralForward(Neural_Network *network, const float input[NN_INPUT_COUNT]);
+void neuralBackProp(Neural_Network *network, const float target[NN_OUTPUT_COUNT], float learningRate);
 
 #endif
