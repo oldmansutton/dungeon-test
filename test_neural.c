@@ -17,6 +17,26 @@ int main(void) {
         1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
     };
 
+    float inputA[NN_INPUT_COUNT] = {
+        1.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 0.0f
+    };
+
+    float targetA[NN_OUTPUT_COUNT] = {
+        1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
+    };
+
+    float inputB[NN_INPUT_COUNT] = {
+        0.0f, 1.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 0.0f,
+        0.0f, 0.0f, 0.0f, 0.0f
+    };
+
+    float targetB[NN_OUTPUT_COUNT] = {
+        0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f
+    };
+
     srand(1);
 
     neuralRandomizeParameters(&parameters);
@@ -33,6 +53,29 @@ int main(void) {
     for (int i = 0; i < NN_OUTPUT_COUNT; i++) {
         printf("Output %d: %f\n", i, network.output[i]);
     }
+
+    for (int i = 0; i < 10000; i++) {
+        neuralForward(&network, inputA);
+        neuralBackProp(&network, targetA, 0.01f);
+
+        neuralForward(&network, inputB);
+        neuralBackProp(&network, targetB, 0.01f);
+    }
+
+    neuralForward(&network, inputA);
+
+    for (int i = 0; i < NN_OUTPUT_COUNT; i++) {
+        printf("Output %d: %f\n", i, network.output[i]);
+    }
+
+
+    neuralForward(&network, inputB);
+
+    for (int i = 0; i < NN_OUTPUT_COUNT; i++) {
+        printf("Output %d: %f\n", i, network.output[i]);
+    }
+
+
 
     return 0;
 }
