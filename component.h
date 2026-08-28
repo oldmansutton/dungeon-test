@@ -21,6 +21,6 @@ typedef enum {
 int componentHas(Entity entity, COMPONENT_TYPE component);
 void componentAdd(Entity entity, COMPONENT_TYPE component);
 void componentRemove(Entity entity, COMPONENT_TYPE component);
-void vomponentRemoveAll(Entity entity);
+void componentRemoveAll(Entity entity);
 
 #endif
