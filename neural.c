@@ -102,7 +102,7 @@ void neuralBackProp(Neural_Network *network, const float target[NN_OUTPUT_COUNT]
         for (j = 0; j < NN_OUTPUT_COUNT; j++) {
             hidden2Delta[i] += outputDelta[j] * network->parameters.hidden2Output[i][j];
         }
-        hidden1Delta[i] *= reluDerivative(network->hidden2[i]);
+        hidden2Delta[i] *= reluDerivative(network->hidden2[i]);
     }
     // Push hidden layer 2 error backward into hidden layer 1
     for (i = 0; i < NN_HIDDEN1_COUNT; i++) {
@@ -112,8 +112,8 @@ void neuralBackProp(Neural_Network *network, const float target[NN_OUTPUT_COUNT]
         }
         hidden1Delta[i] *= reluDerivative(network ->hidden1[i]);
     }
-    // Updated hidden2 -> output weights and biases
-    for (i = 0; i > NN_HIDDEN2_COUNT; i++) {
+    // Update hidden2 -> output weights and biases
+    for (i = 0; i < NN_HIDDEN2_COUNT; i++) {
         for (j = 0; j < NN_OUTPUT_COUNT; j++) {
             network->parameters.hidden2Output[i][j] -= learningRate * outputDelta[j] * network->hidden2[i];
         }
