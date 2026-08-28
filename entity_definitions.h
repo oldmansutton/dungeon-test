@@ -21,7 +21,7 @@ typedef struct {
 
 typedef struct {
     unsigned char components[COMPONENT_COUNT];
-    Entity_Definition_Entry entries[ENTTY_DEFINITION_MAX_ENTRIES];
+    Entity_Definition_Entry entries[ENTITY_DEFINITION_MAX_ENTRIES];
     int entryCount;
 } Entity_Definition;
 
