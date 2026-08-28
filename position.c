@@ -3,6 +3,7 @@
 // Copyright (c) 2026 - oldmansutton
 // 
 
+#include <stddef.h>
 #include "position.h"
 #include "component.h"
 

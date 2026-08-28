@@ -6,7 +6,7 @@
 #ifndef POSITION_H
 #define POSITION_H
 
-#incude "entity.h"
+#include "entity.h"
 
 typedef struct
 {
