@@ -4,8 +4,8 @@
 //
 
 #include "entity.h"
-#include "entity_definitions.h";
-#include "component.h";
+#include "entity_definitions.h"
+#include "component.h"
 
 static Entity nextEntity = 2;
 static const Entity_Definition *entityDefinitions[ENTITY_MAX + 1] = {0};

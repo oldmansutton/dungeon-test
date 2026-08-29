@@ -66,11 +66,15 @@ int initComponents(Entity entity, const Entity_Definition *definition) {
             case COMPONENT_HEALTH:
                 if (initHealth(entity, &definition->components[i])) {
                     addComponent(entity, COMPONENT_HEALTH);
+                } else {
+                    return 0;
                 }
                 break;
             case COMPONENT_ATTRIBUTES:
                 if (initAttributes(entity, &definition->components[i])) {
                     addComponent(entity, COMPONENT_ATTRIBUTES);
+                } else {
+                    return 0;
                 }
                 break;
             default:
