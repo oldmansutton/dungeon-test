@@ -15,6 +15,8 @@
 // You should have received a copy of the GNU General Public License
 // along with this program. If not, see <http://www.gnu.org/licenses/>.
 
+#include <errno.h>
+#include <limits.h>
 #include <stdlib.h>
 #include "map.h"
 #include "helper.h"
@@ -24,6 +26,21 @@ int randr(int min, int max)
 	int r;
 	r = (rand() % (max + 1 - min)) + min;
 	return r;
+}
+
+int parseInt(const char *text, int *result)
+{
+    char *end;
+    long value;
+
+    errno = 0;
+    value = strtol(text, &end, 10);
+    if (text == end) return 0;
+    if (*end != '\0') return 0;
+    if (errno == ERANGE) return 0;
+    if (value < INT_MIN || value > INT_MAX) return 0;
+    *result = (int)value;
+    return 1;
 }
 
 _Point *new_Point(int x, int y)

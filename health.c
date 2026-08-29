@@ -6,12 +6,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "health.h"
+#include "helper.h"
 
 static Health health[ENTITY_MAX + 1] = {0};
-
-static int getRandomHealth(int minHealth, int maxHealth) {
-    return (rand() % (maxHealth - minhealth + 1)) + minHealth;
-}
 
 const Health *getHealth(Entity entity)
 {
@@ -25,6 +22,7 @@ const Health *getHealth(Entity entity)
 void initHealth(Entity entity, const Entity_Definition_Component *component)
 {
     int entityHealth;
+    int minHealth, maxHealth;
     int tmpArg;
     
     if (component->argumentCount != 2) {
@@ -32,12 +30,17 @@ void initHealth(Entity entity, const Entity_Definition_Component *component)
         printf("Expected 2 arguments, received %d\n", component->argumentCount);
         return;
     }
-    if (component->arguments[0] > component->arguments[1]) {
-        tmpArg = component->arguments[0];
-        component->arguments[0] = component->arguments[1];
-        component->arguments[1] = tmpArg;
+    if (!parseInt(component->arguments[0], &minHealth) || !parseInt(component->arguments[1], &maxHealth)) {
+        printf("Could not initialize health for entity %d\n", entity);
+        printf("Health arguments must be integers\n");
+        return;
     }
-    entityHealth = getRandomHealth(atoi(component->arguments[0]), atoi(component->arguments[1]));
+    if (minHealth > maxHealth) {
+        tmpArg = minHealth;
+        minHealth = maxHealth;
+        maxHealth = minHealth;
+    }
+    entityHealth = randr(minHealth, maxHealth);
     health[entity].currentHealth = entityHealth;
     health[entity].maxHealth = entityHealth;
     return;
