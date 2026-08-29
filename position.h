@@ -15,7 +15,7 @@ typedef struct
 } Position;
 
 Position *positionGet(Entity entity);
-void positionAdd(Entity entity, int x, int y);
-void positionRemove(Entity entity);
+void addPosition(Entity entity, int x, int y);
+void removePosition(Entity entity);
 
 #endif

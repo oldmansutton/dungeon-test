@@ -18,10 +18,10 @@ typedef enum {
     COMPONENT_COUNT
 } COMPONENT_TYPE;
 
-int componentHas(Entity entity, COMPONENT_TYPE component);
-void componentAdd(Entity entity, COMPONENT_TYPE component);
-void componentRemove(Entity entity, COMPONENT_TYPE component);
-void componentRemoveAll(Entity entity);
+int hasComponent(Entity entity, COMPONENT_TYPE component);
+void addComponent(Entity entity, COMPONENT_TYPE component);
+void removeComponent(Entity entity, COMPONENT_TYPE component);
+void removeAllComponents(Entity entity);
 int getComponentType(const char *name, COMPONENT_TYPE *type);
 
 #endif

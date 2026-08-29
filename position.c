@@ -10,19 +10,19 @@
 static Position positions[ENTITY_MAX + 1] = {0};
 
 Position *positionGet(Entity entity) {
-    if (!componentHas(entity, COMPONENT_POSITION)) {
+    if (!hasComponent(entity, COMPONENT_POSITION)) {
         return NULL;
     }
     return &positions[entity];
 }
 
-void positionAdd(Entity entity, int x, int y) {
+void addPosition(Entity entity, int x, int y) {
     positions[entity].x = x;
     positions[entity].y = y;
-    componentAdd(entity, COMPONENT_POSITION);
+    addComponent(entity, COMPONENT_POSITION);
 }
 
-void positionRemove(Entity entity) {
-    componentRemove(entity, COMPONENT_POSITION);
+void removePosition(Entity entity) {
+    removeComponent(entity, COMPONENT_POSITION);
     positions[entity] = (Position){0};
 }
