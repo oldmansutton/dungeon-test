@@ -8,12 +8,30 @@
 #include <string.h>
 #include "entity_definitions.h"
 
+#define ENTITY_DEFINITION_MAX 256
+
 typedef enum {
     ENTITY_PARSE_ERROR,
     ENTITY_PARSE_IGNORE,
     ENTITY_PARSE_COMPONENT,
     ENTITY_PARSE_NEW_ENTITY
 } ENTITY_PARSE_RESULT;
+
+static Entity_Definition entityDefinitions[ENTITY_DEFINITION_MAX] = {0};
+static int entityDefinitionCount = 0;
+
+static int registerEntityDefinition(const Entity_Definition *definition)
+{
+    if (!definition || definition->name[0] == '\0') {
+        return 0;
+    }
+    if (entityDefinitionCount >= ENTITY_DEFINITION_MAX) {
+        return 0;
+    }
+    entityDefinitions[entityDefinitionCount] = *definition;
+    entityDefinitionCount++;
+    return 1;
+}
 
 static ENTITY_PARSE_RESULT parseEntityDefinitionLine(Entity_Definition *definition, const char *line, char *newEntityName) {
     Entity_Definition_Component *component;
@@ -94,9 +112,16 @@ static int loadEntityDefinitionFile(const char *filename) {
         if (result == ENTITY_PARSE_IGNORE) {
             continue;
         }
+        if (result == ENTITY_PARSE_COMPONENT && !hasDefinition) {
+            fclose(file);
+            return 0;
+        }
         if (result == ENTITY_PARSE_NEW_ENTITY) {
             if (hasDefinition) {
-                registerEntityDefinition(&definition);
+                if (!registerEntityDefinition(&definition)) {
+                    fclose(file);
+                    return 0;
+                }
             }
             definition = (Entity_Definition){0};
             strcpy(definition.name, newEntityName);
@@ -104,7 +129,10 @@ static int loadEntityDefinitionFile(const char *filename) {
         }
     }
     if (hasDefinition) {
-        registerEntityDefinition(&definition);
+        if (!registerEntityDefinition(&definition)) {
+            fclose(file);
+            return 0;
+        }
     }
     fclose(file);
     return 1;
@@ -113,6 +141,8 @@ static int loadEntityDefinitionFile(const char *filename) {
 void loadEntityDefinitions(const char *path) {
     DIR *directory;
     struct dirent *entry;
+    int loadResult;
+
     directory = opendir(path);
     if (directory == NULL) {
         return;
@@ -132,4 +162,15 @@ void loadEntityDefinitions(const char *path) {
     }
 
     closedir(directory);
+}
+
+int getEntityDefinitionCount(void) {
+    return entityDefinitionCount;
+}
+
+const Entity_Definition *getEntityDefinition(int index) {
+    if (index < 0 || index > ENTITY_DEFINITION_MAX - 1) {
+        // do we want to do anything special in this edge case?  Return a blank entity definition?  Die?
+    }
+    return entityDefinitions[index];
 }

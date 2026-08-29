@@ -26,5 +26,7 @@ typedef struct {
 } Entity_Definition;
 
 void loadEntityDefinitions(const char *path);
+int getEntityDefinitionCount(void);
+const Entity_Definition *getEntityDefinition(int index);
 
 #endif
