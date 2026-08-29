@@ -181,9 +181,12 @@ const Entity_Definition *getEntityDefinition(int index) {
 
 const Entity_Definition *getEntityDefinitionByName(const char *name) {
     int i;
+    if (!name) {
+        return NULL;
+    }
     for (i = 0; i < entityDefinitionCount; i++) {
-        if (strcmp(entityDefinitions[i]->name, name)) {
-            return const &entityDefinitions[i];
+        if (strcmp(entityDefinitions[i].name, name) == 0) {
+            return &entityDefinitions[i];
         }
     }
     return NULL;
