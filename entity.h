@@ -12,6 +12,9 @@
 
 typedef unsigned int Entity;
 
+typedef struct Entity_Definition Entity_Definition;
+
 const Entity_Definition *getEntityDefinitionForEntity(Entity entity);
+Entity createEntity(const Entity_Definition *definition);
 
 #endif

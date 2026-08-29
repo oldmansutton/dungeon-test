@@ -3,11 +3,15 @@
 // Copyright (c) 2026 - ryan sutton
 //
 
+#include "entity.h"
+#include "entity_definitions.h";
+#include "component.h";
+
 static Entity nextEntity = 2;
 static const Entity_Definition *entityDefinitions[ENTITY_MAX + 1] = {0};
 
 const Entity_Definition *getEntityDefinitionForEntity(Entity entity) {
-    return &entityDefinitions[entity];
+    return entityDefinitions[entity];
 }
 
 Entity createEntity(const Entity_Definition *definition)
