@@ -8,54 +8,103 @@
 #include <string.h>
 #include "entity_definitions.h"
 
-static int entityDefinitionParseLine(Entity_Definition *definition, const char *line) {
-    Entity_Definition_Entry *entry;
+typedef enum {
+    ENTITY_PARSE_ERROR,
+    ENTITY_PARSE_IGNORE,
+    ENTITY_PARSE_COMPONENT,
+    ENTITY_PARSE_NEW_ENTITY
+} ENTITY_PARSE_RESULT;
+
+static ENTITY_PARSE_RESULT parseEntityDefinitionLine(Entity_Definition *definition, const char *line, char *newEntityName) {
+    Entity_Definition_Component *component;
     char buffer[256];
+    char *token;
     char *part;
     int length;
 
-    if (!definition || !line) {
-        return 0;
+    if (!definition || !line || !newEntityName) {
+        return ENTITY_PARSE_ERROR;
     }
-    if (definition->entryCount >= ENTITY_DEFINITION_MAX_ENTRIES) {
-        return 0;
+    if (strlen(line) >= sizeof(buffer)) {
+        return ENTITY_PARSE_ERROR;
     }
-    if (snprintf(buffer, sizeof(buffer), "%s", line) >= sizeof(buffer)) {
-        return 0;
-    }
+    strcpy(buffer, line);
     buffer[strcspn(buffer, "\r\n")] = '\0';
+    if (buffer[0] == '\0') {
+        return ENTITY_PARSE_IGNORE;
+    }
     length = strlen(buffer);
     if (length < 2 || buffer[0] != '[' || buffer[length - 1] != ']') {
-        return 0;
+        return ENTITY_PARSE_ERROR;
     }
     buffer[length - 1] = '\0';
-    entry = &definition->entries[definition->entryCount];
-    *entry = (Entity_Definition_Entry){0};
-    part = strtok(buffer + 1, ":");
-    if (!part) {
-        return 0;
+    token = strtok(buffer + 1, ":");
+    if (!token) {
+        return ENTITY_PARSE_ERROR;
     }
-    snprintf(entry->token, sizeof(entry->token), "%s", part);
-    while ((part = strtok(NULL, ":")) != NULL) {
-        if (entry->argumentCount >= ENTITY_DEFINITION_MAX_ARGUMENTS) {
-            return 0;
+    if (strcmp(token, "ENTITY") == 0) {
+        part = strtok(NULL, ":");
+        if (!part || strlen(part) >= ENTITY_DEFINITION_NAME_LENGTH) {
+            return ENTITY_PARSE_ERROR;
         }
-        snprintf(entry->arguments[entry->argumentCount], sizeof(entry->arguments[entry->argumentCount]), "%s", part);
-        entry->argumentCount++;
+        strcpy(newEntityName, part);
+        return ENTITY_PARSE_NEW_ENTITY;
     }
-    definition->entryCount++;
-    return 1;
+    if (definition->componentCount >= ENTITY_DEFINITION_MAX_COMPONENTS) {
+        return ENTITY_PARSE_ERROR;
+    }
+    component = &definition->components[definition->componentCount];
+    *component = (Entity_Definition_Component){0};
+    if (!getComponentType(token, &component->type)) {
+        return ENTITY_PARSE_ERROR;
+    }
+    while ((part = strtok(NULL, ":")) != NULL) {
+        if (component->argumentCount >= ENTITY_DEFINITION_MAX_ARGUMENTS) {
+            return ENTITY_PARSE_ERROR;
+        }
+        if (strlen(part) >= ENTITY_DEFINITION_ARGUMENT_LENGTH) {
+            return ENTITY_PARSE_ERROR;
+        }
+        strcpy(component->arguments[component->argumentCount], part);
+        component->argumentCount++;
+    }
+    definition->componentCount++;
+    return ENTITY_PARSE_COMPONENT;
 }
 
-static int entityDefinitionLoadFile(const char *filename, Entity_Definition *definition) {
+static int loadEntityDefinitionFile(const char *filename) {
     FILE *file;
+    Entity_Definition definition = {0};
+    ENTITY_PARSE_RESULT result;
+    char newEntityName[ENTITY_DEFINITION_NAME_LENGTH] = {0};
     char line[256];
+    int hasDefinition = 0;
+
     file = fopen(filename, "r");
     if (file == NULL) {
         return 0;
     }
     while (fgets(line, sizeof(line), file) != NULL) {
-        entityDefinitionParseLine(definition, line);
+        newEntityName[0] = '\0';
+        result = parseEntityDefinitionLine(&definition, line, newEntityName);
+        if (result == ENTITY_PARSE_ERROR) {
+            fclose(file);
+            return 0;
+        }
+        if (result == ENTITY_PARSE_IGNORE) {
+            continue;
+        }
+        if (result == ENTITY_PARSE_NEW_ENTITY) {
+            if (hasDefinition) {
+                registerEntityDefinition(&definition);
+            }
+            definition = (Entity_Definition){0};
+            strcpy(definition.name, newEntityName);
+            hasDefinition = 1;
+        }
+    }
+    if (hasDefinition) {
+        registerEntityDefinition(&definition);
     }
     fclose(file);
     return 1;
@@ -71,10 +120,12 @@ void loadEntityDefinitions(const char *path) {
     while ((entry = readdir(directory)) != NULL) {
         printf("%s: ", entry->d_name);
         if (entry->d_type == DT_REG) {
-            // loadResult = entityDefinitionLoadFile(entry->d_name, SomeEntityDefinition);
-            // no idea where that entity definition comes from
-            // add if branch for load result logging
-            printf(" parsed.\n");
+            loadResult = loadEntityDefinitionFile(entry->d_name);
+            if (loadResult) {
+                printf(" parsed.\n");
+            } else {
+                printf(" ...ERROR!\n");
+            }
         } else {
             printf(" skipped.\n");
         }
