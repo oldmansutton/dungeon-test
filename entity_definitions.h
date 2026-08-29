@@ -10,7 +10,7 @@
 
 #define ENTITY_DEFINITION_MAX_COMPONENTS 32
 #define ENTITY_DEFINITION_MAX_ARGUMENTS 8
-#define ENTITY_DEFINITION_TOKEN_LENGTH 32
+#define ENTITY_DEFINITION_NAME_LENGTH 32
 #define ENTITY_DEFINITION_ARGUMENT_LENGTH 32
 
 typedef struct {
@@ -25,8 +25,6 @@ typedef struct {
     int componentCount;
 } Entity_Definition;
 
-void entityDefinitionAddComponent(Entity_Definition *definition, COMPONENT_TYPE component);
-int entityDefinitionHasComponent(const Entity_Definition *definition, COMPONENT_TYPE component);
-void loadEntityDefinitions(const char *path)
+void loadEntityDefinitions(const char *path);
 
 #endif

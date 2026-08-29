@@ -8,19 +8,33 @@
 
 static unsigned char components[ENTITY_MAX + 1][COMPONENT_COUNT] = {0};
 
-int componentHas(Entity entity, COMPONENT_TYPE component) {
+typedef struct {
+    const char *name;
+    COMPONENT_TYPE type;
+} Component_Type_Name;
+
+static const Component_Type_Name componentTypeNames[] = {
+    {"POSITION", COMPONENT_POSITION},
+    {"HEALTH", COMPONENT_HEALTH},
+    {"ATTRIBUTES", COMPONENT_ATTRIBUTES},
+    {"MOTIVES", COMPONENT_MOTIVES},
+    {"GENOME", COMPONENT_GENOME},
+    {"NEURAL", COMPONENT_NEURAL}
+};
+
+int hasComponent(Entity entity, COMPONENT_TYPE component) {
     return components[entity][component];
 }
 
-void componentAdd(Entity entity, COMPONENT_TYPE component) {
+void addComponent(Entity entity, COMPONENT_TYPE component) {
     components[entity][component] = 1;
 }
 
-void componentRemove(Entity entity, COMPONENT_TYPE component) {
+void removeComponent(Entity entity, COMPONENT_TYPE component) {
     components[entity][component] = 0;
 }
 
-void componentRemoveAll(Entity entity) {
+void removeAllComponents(Entity entity) {
     int i;
 
     for (i = 0; i < COMPONENT_COUNT; i++) {

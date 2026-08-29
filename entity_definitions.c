@@ -8,14 +8,6 @@
 #include <string.h>
 #include "entity_definitions.h"
 
-void entityDefinitionAddComponent(Entity_Definition *definition, COMPONENT_TYPE component) {
-    definition->components[component] = 1;
-}
-
-int entityDefinitionHasComponent(const Entity_Definition * definition, COMPONENT_TYPE component) {
-    return definition->components[component];
-}
-
 static int entityDefinitionParseLine(Entity_Definition *definition, const char *line) {
     Entity_Definition_Entry *entry;
     char buffer[256];
