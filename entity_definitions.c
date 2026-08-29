@@ -141,6 +141,7 @@ static int loadEntityDefinitionFile(const char *filename) {
 void loadEntityDefinitions(const char *path) {
     DIR *directory;
     struct dirent *entry;
+    char filename[512];
     int loadResult;
 
     directory = opendir(path);
@@ -150,6 +151,9 @@ void loadEntityDefinitions(const char *path) {
     while ((entry = readdir(directory)) != NULL) {
         printf("%s: ", entry->d_name);
         if (entry->d_type == DT_REG) {
+            strcpy(filename, path);
+            strcat(filename, "/");
+            strcat(filename, entry->d_name);
             loadResult = loadEntityDefinitionFile(entry->d_name);
             if (loadResult) {
                 printf(" parsed.\n");
@@ -169,8 +173,8 @@ int getEntityDefinitionCount(void) {
 }
 
 const Entity_Definition *getEntityDefinition(int index) {
-    if (index < 0 || index > ENTITY_DEFINITION_MAX - 1) {
-        // do we want to do anything special in this edge case?  Return a blank entity definition?  Die?
+    if (index < 0 || index >= entityDefinitonCount) {
+        return NULL;
     }
-    return entityDefinitions[index];
+    return &entityDefinitions[index];
 }
