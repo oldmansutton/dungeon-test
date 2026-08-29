@@ -19,7 +19,7 @@ typedef struct {
     int argumentCount;
 } Entity_Definition_Component;
 
-typedef struct {
+typedef struct Entity_Definition {
     char name[ENTITY_DEFINITION_NAME_LENGTH];
     Entity_Definition_Component components[ENTITY_DEFINITION_MAX_COMPONENTS];
     int componentCount;

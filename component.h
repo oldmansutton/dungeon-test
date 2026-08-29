@@ -7,7 +7,8 @@
 #define COMPONENT_H
 
 #include "entity.h"
-#include "entity_definitions.h"
+
+typedef struct Entity_Definition Entity_Definition;
 
 typedef enum {
     COMPONENT_POSITION,

@@ -5,6 +5,8 @@
 
 #include <string.h>
 #include "component.h"
+#include "entity_definitions.h"
+#include "health.h"
 
 static unsigned char components[ENTITY_MAX + 1][COMPONENT_COUNT] = {0};
 

@@ -6,6 +6,9 @@
 #ifndef HEALTH_H
 #define HEALTH_H
 
+#include "entity.h"
+#include "entity_definitions.h"
+
 typedef struct {
     int currentHealth;
     int maxHealth;
