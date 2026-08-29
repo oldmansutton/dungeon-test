@@ -24,7 +24,7 @@ int initAttributes(Entity entity, const Entity_Definition_Component *component)
     int minAttribute, maxAttribute;
     int tmpArg;
     int attribute = 0;
-    unsigned int *attributeFields[] = {
+    int *attributeFields[] = {
         &attributes[entity].strength,
         &attributes[entity].dexterity,
         &attributes[entity].constitution,

@@ -77,4 +77,5 @@ int initComponents(Entity entity, const Entity_Definition *definition) {
                 break;
         }
     }
+    return 1;
 }
