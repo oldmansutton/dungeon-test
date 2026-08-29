@@ -154,7 +154,7 @@ void loadEntityDefinitions(const char *path) {
             strcpy(filename, path);
             strcat(filename, "/");
             strcat(filename, entry->d_name);
-            loadResult = loadEntityDefinitionFile(entry->d_name);
+            loadResult = loadEntityDefinitionFile(filename);
             if (loadResult) {
                 printf(" parsed.\n");
             } else {
@@ -173,7 +173,7 @@ int getEntityDefinitionCount(void) {
 }
 
 const Entity_Definition *getEntityDefinition(int index) {
-    if (index < 0 || index >= entityDefinitonCount) {
+    if (index < 0 || index >= entityDefinitionCount) {
         return NULL;
     }
     return &entityDefinitions[index];
