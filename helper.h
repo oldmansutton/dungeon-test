@@ -1,6 +1,6 @@
 // helper.h
 //
-// Copyright (C) 2012 - oldmansutton
+// Copyright (C) 2012-2026 - oldmansutton
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@ typedef struct
 } _Line;
 
 extern int randr(int min, int max);
+extern int parseInt(const char *text, int *result);
 
 extern _Point *new_Point(int x, int y);
 extern _Line *new_Line(int x1, int y1, int x2, int y2);

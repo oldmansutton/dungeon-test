@@ -15,6 +15,6 @@ typedef struct {
 } Health;
 
 const Health *getHealth(Entity entity);
-void initHealth(Entity entity, const Entity_Definition_Component *component);
+int initHealth(Entity entity, const Entity_Definition_Component *component);
 
 #endif
