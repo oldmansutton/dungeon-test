@@ -7,6 +7,7 @@
 #include "component.h"
 #include "entity_definitions.h"
 #include "health.h"
+#include "attributes.h"
 
 static unsigned char components[ENTITY_MAX + 1][COMPONENT_COUNT] = {0};
 
@@ -57,14 +58,19 @@ int getComponentType(const char *name, COMPONENT_TYPE *type)
     return 0;
 }
 
-void initComponents(Entity entity, Entity_Definition *definition) {
+int initComponents(Entity entity, const Entity_Definition *definition) {
     int i;
 
     for (i = 0; i < definition->componentCount; i++) {
         switch (definition->components[i].type) {
             case COMPONENT_HEALTH:
-                if(initHealth(entity, &definition->components[i])) {
+                if (initHealth(entity, &definition->components[i])) {
                     addComponent(entity, COMPONENT_HEALTH);
+                }
+                break;
+            case COMPONENT_ATTRIBUTES:
+                if (initAttributes(entity, &definition->components[i])) {
+                    addComponent(entity, COMPONENT_ATTRIBUTES);
                 }
                 break;
             default:

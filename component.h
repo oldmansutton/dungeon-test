@@ -25,6 +25,6 @@ void addComponent(Entity entity, COMPONENT_TYPE component);
 void removeComponent(Entity entity, COMPONENT_TYPE component);
 void removeAllComponents(Entity entity);
 int getComponentType(const char *name, COMPONENT_TYPE *type);
-void initComponents(Entity entity, Entity_Definition *definition);
+int initComponents(Entity entity, const Entity_Definition *definition);
 
 #endif

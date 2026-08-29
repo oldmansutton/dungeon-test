@@ -18,7 +18,6 @@
 #include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
-#include "map.h"
 #include "helper.h"
 
 int randr(int min, int max)
@@ -66,7 +65,7 @@ _Line *new_Line(int x1, int y1, int x2, int y2)
 
 	int err = dx - dy;
 
-	while(true)
+	while(1)
 	{
 		_pt = realloc(_pt,sizeof(_Point) * numpts);
 		_pt[numpts - 1].x = x1;

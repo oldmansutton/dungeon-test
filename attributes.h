@@ -6,6 +6,9 @@
 #ifndef ATTRIBUTES_H
 #define ATTRIBUTES_H
 
+#include "entity.h"
+#include "entity_definitions.h"
+
 typedef struct {
     // BASE ATTRIBUTES
     // Physical
@@ -24,3 +27,7 @@ typedef struct {
     int luck; // modifies roll outcomes +/-, loot drops, crits, etc.
 } Attributes;
 
+const Attributes *getAttributes(Entity entity);
+int initAttributes(Entity entity, const Entity_Definition_Component *component);
+
+#endif
