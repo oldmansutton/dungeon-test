@@ -178,3 +178,13 @@ const Entity_Definition *getEntityDefinition(int index) {
     }
     return &entityDefinitions[index];
 }
+
+const Entity_Definition *getEntityDefinitionByName(const char *name) {
+    int i;
+    for (i = 0; i < entityDefinitionCount; i++) {
+        if (strcmp(entityDefinitions[i]->name, name)) {
+            return const &entityDefinitions[i];
+        }
+    }
+    return NULL;
+}
