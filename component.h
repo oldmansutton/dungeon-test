@@ -18,9 +18,24 @@ typedef enum {
     COMPONENT_COUNT
 } COMPONENT_TYPE;
 
+typedef struct {
+    const char *name;
+    COMPONENT_TYPE type;
+} Component_Type_Name;
+
+static const Component_Type_Name componentTypeNames[] = {
+    {"POSITION", COMPONENT_POSITION},
+    {"HEALTH", COMPONENT_HEALTH},
+    {"ATTRIBUTES", COMPONENT_ATTRIBUTES},
+    {"MOTIVES", COMPONENT_MOTIVES},
+    {"GENOME", COMPONENT_GENOME},
+    {"NEURAL", COMPONENT_NEURAL}
+};
+
 int componentHas(Entity entity, COMPONENT_TYPE component);
 void componentAdd(Entity entity, COMPONENT_TYPE component);
 void componentRemove(Entity entity, COMPONENT_TYPE component);
 void componentRemoveAll(Entity entity);
+int getComponentType(const char *name, COMPONENT_TYPE *type);
 
 #endif

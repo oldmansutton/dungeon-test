@@ -8,24 +8,25 @@
 
 #include "component.h"
 
-#define ENTITY_DEFINITION_MAX_ENTRIES 64
+#define ENTITY_DEFINITION_MAX_COMPONENTS 32
 #define ENTITY_DEFINITION_MAX_ARGUMENTS 8
 #define ENTITY_DEFINITION_TOKEN_LENGTH 32
-#define ENTITY_DEFINITION_ARGUMENT_LENGTH 64
+#define ENTITY_DEFINITION_ARGUMENT_LENGTH 32
 
 typedef struct {
-    char token[ENTITY_DEFINITION_TOKEN_LENGTH];
+    COMPONENT_TYPE type;
     char arguments[ENTITY_DEFINITION_MAX_ARGUMENTS][ENTITY_DEFINITION_ARGUMENT_LENGTH];
     int argumentCount;
-} Entity_Definition_Entry;
+} Entity_Definition_Component;
 
 typedef struct {
-    unsigned char components[COMPONENT_COUNT];
-    Entity_Definition_Entry entries[ENTITY_DEFINITION_MAX_ENTRIES];
-    int entryCount;
+    char name[ENTITY_DEFINITION_NAME_LENGTH];
+    Entity_Definition_Component components[ENTITY_DEFINITION_MAX_COMPONENTS];
+    int componentCount;
 } Entity_Definition;
 
 void entityDefinitionAddComponent(Entity_Definition *definition, COMPONENT_TYPE component);
 int entityDefinitionHasComponent(const Entity_Definition *definition, COMPONENT_TYPE component);
+void loadEntityDefinitions(const char *path)
 
 #endif

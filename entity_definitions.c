@@ -77,10 +77,15 @@ void loadEntityDefinitions(const char *path) {
         return;
     }
     while ((entry = readdir(directory)) != NULL) {
+        printf("%s: ", entry->d_name);
         if (entry->d_type == DT_REG) {
-            entityDefinitionLoadFile(entry->d_name, 
+            // loadResult = entityDefinitionLoadFile(entry->d_name, SomeEntityDefinition);
+            // no idea where that entity definition comes from
+            // add if branch for load result logging
+            printf(" parsed.\n");
+        } else {
+            printf(" skipped.\n");
         }
-        printf("%s\n", entry->d_name);
     }
 
     closedir(directory);
