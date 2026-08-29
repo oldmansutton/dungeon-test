@@ -7,6 +7,7 @@
 #define COMPONENT_H
 
 #include "entity.h"
+#include "entity_definitions.h"
 
 typedef enum {
     COMPONENT_POSITION,
@@ -23,5 +24,6 @@ void addComponent(Entity entity, COMPONENT_TYPE component);
 void removeComponent(Entity entity, COMPONENT_TYPE component);
 void removeAllComponents(Entity entity);
 int getComponentType(const char *name, COMPONENT_TYPE *type);
+void initComponents(Entity entity, Entity_Definition *definition);
 
 #endif

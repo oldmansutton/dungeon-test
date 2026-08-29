@@ -54,3 +54,18 @@ int getComponentType(const char *name, COMPONENT_TYPE *type)
     }
     return 0;
 }
+
+void initComponents(Entity entity, Entity_Definition *definition) {
+    int i;
+
+    for (i = 0; i < definition->componentCount; i++) {
+        switch (definition->components[i].type) {
+            case COMPONENT_HEALTH:
+                addComponent(entity, COMPONENT_HEALTH);
+                initHealth(entity, &definition->components[i]);
+                break;
+            default:
+                break;
+        }
+    }
+}
