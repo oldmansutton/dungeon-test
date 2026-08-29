@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "entity_definitions.h"
+#include "entity.h"
 #include "component.h"
 #include "health.h"
 #include "attributes.h"
@@ -36,37 +37,43 @@ int main(void)
         }
     }
 
-    Entity entity = 1;
+    Entity tmpEntity[3];
+    const Entity_Definition *goblinDefinition = getEntityDefinition(0);
+    const Entity_Definition *orcDefinition = getEntityDefinition(1);
+    const Entity_Definition *ogreDefinition = getEntityDefinition(2);
+    tmpEntity[0] = createEntity(goblinDefinition);
+    tmpEntity[1] = createEntity(orcDefinition);
+    tmpEntity[2] = createEntity(ogreDefinition);
     const Health *entityHealth;
     const Attributes *entityAttributes;
+    
+    for (i = 0; i < 3; i++) {
+        Entity curEntity;
+        curEntity = tmpEntity[i];
 
-    definition = getEntityDefinition(0);
+        printf("\nInitializing entity %d from %s\n", curEntity, getEntityDefinitionForEntity(curEntity)->name);
+        printf("Has health: %d\n", hasComponent(curEntity, COMPONENT_HEALTH));
 
-    printf("\nInitializing entity %d from %s\n", entity, definition->name);
+        entityHealth = getHealth(curEntity);
+        if (entityHealth) {
+            printf("Current health: %d\n", entityHealth->currentHealth);
+            printf("Max health: %d\n", entityHealth->maxHealth);
+        }
 
-    initComponents(entity, definition);
-
-    printf("Has health: %d\n", hasComponent(entity, COMPONENT_HEALTH));
-
-    entityHealth = getHealth(entity);
-    if (entityHealth) {
-        printf("Current health: %d\n", entityHealth->currentHealth);
-        printf("Max health: %d\n", entityHealth->maxHealth);
-    }
-
-    entityAttributes = getAttributes(entity);
-    if (entityAttributes) {
-        printf("Attributes: \n");
-        printf("  STR: %d\n", entityAttributes->strength);
-        printf("  DEX: %d\n", entityAttributes->dexterity);
-        printf("  CON: %d\n", entityAttributes->constitution);
-        printf("  INT: %d\n", entityAttributes->intelligence);
-        printf("  WIS: %d\n", entityAttributes->wisdom);
-        printf("  RES: %d\n", entityAttributes->resolve);
-        printf("  PRE: %d\n", entityAttributes->presence);
-        printf("  CHA: %d\n", entityAttributes->charisma);
-        printf("  NRV: %d\n", entityAttributes->nerve);
-        printf("  LUC: %d\n", entityAttributes->luck);        
+        entityAttributes = getAttributes(curEntity);
+        if (entityAttributes) {
+            printf("Attributes: \n");
+            printf("  STR: %d\n", entityAttributes->strength);
+            printf("  DEX: %d\n", entityAttributes->dexterity);
+            printf("  CON: %d\n", entityAttributes->constitution);
+            printf("  INT: %d\n", entityAttributes->intelligence);
+            printf("  WIS: %d\n", entityAttributes->wisdom);
+            printf("  RES: %d\n", entityAttributes->resolve);
+            printf("  PRE: %d\n", entityAttributes->presence);
+            printf("  CHA: %d\n", entityAttributes->charisma);
+            printf("  NRV: %d\n", entityAttributes->nerve);
+            printf("  LUC: %d\n", entityAttributes->luck);        
+        }
     }
     return 0;
 }
