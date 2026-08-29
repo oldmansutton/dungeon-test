@@ -63,8 +63,9 @@ void initComponents(Entity entity, Entity_Definition *definition) {
     for (i = 0; i < definition->componentCount; i++) {
         switch (definition->components[i].type) {
             case COMPONENT_HEALTH:
-                addComponent(entity, COMPONENT_HEALTH);
-                initHealth(entity, &definition->components[i]);
+                if(initHealth(entity, &definition->components[i])) {
+                    addComponent(entity, COMPONENT_HEALTH);
+                }
                 break;
             default:
                 break;
