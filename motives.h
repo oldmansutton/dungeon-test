@@ -6,6 +6,9 @@
 #ifndef MOTIVES_H
 #define MOTIVES_H
 
+#include "entity.h"
+#include "entity_definitions.h"
+
 typedef enum {
     MOTIVE_SELF_PRESERVATION,
     MOTIVE_GROUP_SAFETY,
@@ -43,6 +46,12 @@ typedef struct {
     float delta[MOTIVE_COUNT];
 } Motive_Delta;
 
+const Motives *getMotives(Entity entity);
+int getMotiveType(const char *name, MOTIVE_TYPE *type);
+int initMotives(Entity entity, const Entity_Definition_Component *component);
+
+float motivesGetReward(const Motives *motives, const Motive_State *before, const Motive_State *after);
+void motivesEvaluateState(int health, int maxHealth, float threat, Motive_State *state);
 float motivesGetReward(const Motives *motives, const Motive_State *before, const Motive_State *after);
 void motivesEvaluateState(int health, int maxHealth, float threat, Motive_State *state);
 

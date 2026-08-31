@@ -3,7 +3,54 @@
 // Copyright (c) 2026 - oldmansutton
 //
 
+#include <stdio.h>
+#include <string.h>
 #include "motives.h"
+#include "helper.h"
+
+static Motives motives[ENTITY_MAX + 1] = {0};
+
+typedef struct {
+    const char *name;
+    MOTIVE_TYPE type;
+} Motive_Type_Name;
+
+static const Motive_Type_Name motiveTypeNames[] = {
+    {"SELF_PRESERVATION", MOTIVE_SELF_PRESERVATION},
+    {"GROUP_SAFETY", MOTIVE_GROUP_SAFETY},
+    {"GOAL_PROGRESS", MOTIVE_GOAL_PROGRESS},
+    {"RESOURCES", MOTIVE_RESOURCES},
+    {"STATUS", MOTIVE_STATUS},
+    {"TERRITORY", MOTIVE_TERRITORY},
+    {"MALEVOLENCE", MOTIVE_MALEVOLENCE},
+    {"OBEDIENCE", MOTIVE_OBEDIENCE},
+    {"HUNGER", MOTIVE_HUNGER},
+    {"DOMINANCE", MOTIVE_DOMINANCE},
+    {"ALTRUISM", MOTIVE_ALTRUISM},
+    {"GREED", MOTIVE_GREED},
+    {"CURIOSITY", MOTIVE_CURIOSITY},
+    {"VENGEANCE", MOTIVE_VENGEANCE},
+    {"KINSHIP", MOTIVE_KINSHIP},
+    {"FREEDOM", MOTIVE_FREEDOM},
+    {"HONOR", MOTIVE_HONOR},
+    {"PAIN_AVOIDANCE", MOTIVE_PAIN_AVOIDANCE}
+};
+
+static void clamp(float min, float max, float *value) {
+    if (*value < min) {
+        *value = min;
+    } else if (*value > max) {
+        *value = max;
+    }
+} 
+
+const Motives *getMotives(Entity entity)
+{
+    if (!hasComponent(entity, COMPONENT_MOTIVES)) {
+        return NULL;
+    }
+    return &motives[entity];
+}
 
 float motivesGetReward(const Motives *motives, const Motive_State *before, const Motive_State *after) {
     int i;
@@ -15,14 +62,6 @@ float motivesGetReward(const Motives *motives, const Motive_State *before, const
 
     return reward;
 }
-
-static void clamp(float min, float max, float *value) {
-    if (*value < min) {
-        *value = min;
-    } else if (*value > max) {
-        *value = max;
-    }
-} 
 
 static float motivesEvaluateSelfPreservation(int health, int maxHealth, float threat) {
     float healthState, safetyState;
