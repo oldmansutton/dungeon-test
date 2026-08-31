@@ -42,6 +42,23 @@ int parseInt(const char *text, int *result)
     return 1;
 }
 
+#include <math.h>
+
+int parseFloat(const char *text, float *result)
+{
+    char *end;
+    float value;
+
+    errno = 0;
+    value = strtof(text, &end);
+    if (text == end) return 0;
+    if (*end != '\0') return 0;
+    if (errno == ERANGE) return 0;
+    if (!isfinite(value)) return 0;
+    *result = value;
+    return 1;
+}
+
 _Point *new_Point(int x, int y)
 {
 	_Point *_point = (_Point*)malloc(sizeof(_Point));

@@ -32,6 +32,7 @@ typedef struct
 
 extern int randr(int min, int max);
 extern int parseInt(const char *text, int *result);
+extern float parseFloat(const char *text, int *result);
 
 extern _Point *new_Point(int x, int y);
 extern _Line *new_Line(int x1, int y1, int x2, int y2);
