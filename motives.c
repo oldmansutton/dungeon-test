@@ -65,6 +65,47 @@ int getMotiveType(const char *name, MOTIVE_TYPE *type)
     return 0;
 }
 
+int initMotives(Entity entity, const Entity_Definition_Component *component)
+{
+    MOTIVE_TYPE type;
+    float minWeight, maxWeight, weight;
+
+    if (component->argumentCount < 2 || component->argumentCount > 3) {
+        return 0;
+    }
+
+    if (!getMotiveType(component->arguments[0], &type)) {
+        return 0;
+    }
+
+    if (!parseFloat(component->arguments[1], &minWeight)) {
+        return 0;
+    }
+
+    if (component->argumentCount == 2) {
+        weight = minWeight;
+    } else {
+        if (!parseFloat(component->arguments[2], &maxWeight)) {
+            return 0;
+        }
+
+        if (minWeight > maxWeight) {
+            float temp = minWeight;
+            minWeight = maxWeight;
+            maxWeight = temp;
+        }
+
+        weight = randFloat(minWeight, maxWeight);
+    }
+
+    if (weight < 0.0f || weight > 1.0f) {
+        return 0;
+    }
+
+    motives[entity].weight[type] = weight;
+    return 1;
+}
+
 float motivesGetReward(const Motives *motives, const Motive_State *before, const Motive_State *after) {
     int i;
     float reward = 0.0f;

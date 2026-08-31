@@ -31,6 +31,7 @@ typedef struct
 } _Line;
 
 extern int randr(int min, int max);
+extern float randFloat(float min, float max);
 extern int parseInt(const char *text, int *result);
 extern int parseFloat(const char *text, float *result);
 
