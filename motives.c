@@ -52,6 +52,19 @@ const Motives *getMotives(Entity entity)
     return &motives[entity];
 }
 
+int getMotiveType(const char *name, MOTIVE_TYPE *type)
+{
+    int i;
+
+    for (i = 0; i < MOTIVE_COUNT; i++) {
+        if (strcmp(name, motiveTypeNames[i].name) == 0) {
+            *type = motiveTypeNames[i].type;
+            return 1;
+        }
+    }
+    return 0;
+}
+
 float motivesGetReward(const Motives *motives, const Motive_State *before, const Motive_State *after) {
     int i;
     float reward = 0.0f;

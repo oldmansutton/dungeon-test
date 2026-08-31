@@ -52,7 +52,5 @@ int initMotives(Entity entity, const Entity_Definition_Component *component);
 
 float motivesGetReward(const Motives *motives, const Motive_State *before, const Motive_State *after);
 void motivesEvaluateState(int health, int maxHealth, float threat, Motive_State *state);
-float motivesGetReward(const Motives *motives, const Motive_State *before, const Motive_State *after);
-void motivesEvaluateState(int health, int maxHealth, float threat, Motive_State *state);
 
 #endif
