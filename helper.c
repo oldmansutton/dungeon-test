@@ -17,6 +17,7 @@
 
 #include <errno.h>
 #include <limits.h>
+#include <math.h>
 #include <stdlib.h>
 #include "helper.h"
 
@@ -41,8 +42,6 @@ int parseInt(const char *text, int *result)
     *result = (int)value;
     return 1;
 }
-
-#include <math.h>
 
 int parseFloat(const char *text, float *result)
 {
