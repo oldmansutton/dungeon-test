@@ -8,6 +8,7 @@
 #include "entity_definitions.h"
 #include "health.h"
 #include "attributes.h"
+#include "motives.h"
 
 static unsigned char components[ENTITY_MAX + 1][COMPONENT_COUNT] = {0};
 
@@ -73,6 +74,13 @@ int initComponents(Entity entity, const Entity_Definition *definition) {
             case COMPONENT_ATTRIBUTES:
                 if (initAttributes(entity, &definition->components[i])) {
                     addComponent(entity, COMPONENT_ATTRIBUTES);
+                } else {
+                    return 0;
+                }
+                break;
+            case COMPONENT_MOTIVES:
+                if (initMotives(entity, &definition->components[i])) {
+                    addComponent(entity, COMPONENT_MOTIVES);
                 } else {
                     return 0;
                 }
