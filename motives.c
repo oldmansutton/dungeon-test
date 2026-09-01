@@ -65,6 +65,10 @@ int getMotiveType(const char *name, MOTIVE_TYPE *type)
     return 0;
 }
 
+const char *getMotiveName(int type) {
+    return motiveTypeNames[type].name;
+}
+
 int initMotives(Entity entity, const Entity_Definition_Component *component)
 {
     MOTIVE_TYPE type;

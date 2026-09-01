@@ -78,7 +78,7 @@ int initComponents(Entity entity, const Entity_Definition *definition) {
                     return 0;
                 }
                 break;
-            case COMPONENT_MOTIVES:
+            case COMPONENT_MOTIVE:
                 if (initMotives(entity, &definition->components[i])) {
                     addComponent(entity, COMPONENT_MOTIVE);
                 } else {

@@ -6,6 +6,7 @@
 #include "component.h"
 #include "health.h"
 #include "attributes.h"
+#include "motives.h"
 
 int main(void)
 {
@@ -46,6 +47,7 @@ int main(void)
     tmpEntity[2] = createEntity(ogreDefinition);
     const Health *entityHealth;
     const Attributes *entityAttributes;
+    const Motives *entityMotives;
     
     for (i = 0; i < 3; i++) {
         Entity curEntity;
@@ -73,6 +75,14 @@ int main(void)
             printf("  CHA: %d\n", entityAttributes->charisma);
             printf("  NRV: %d\n", entityAttributes->nerve);
             printf("  LUC: %d\n", entityAttributes->luck);        
+        }
+
+        entityMotives = getMotives(curEntity);
+        if (entityMotives) {
+            printf("Motives: \n");
+            for (i = 0; i < MOTIVE_COUNT; i++) {
+                printf("  %s: %f\n", getMotiveName(i), entityMotives->weight[i]);
+            }
         }
     }
     return 0;

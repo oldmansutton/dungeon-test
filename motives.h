@@ -48,6 +48,7 @@ typedef struct {
 
 const Motives *getMotives(Entity entity);
 int getMotiveType(const char *name, MOTIVE_TYPE *type);
+const char *getMotiveName(int type);
 int initMotives(Entity entity, const Entity_Definition_Component *component);
 
 float motivesGetReward(const Motives *motives, const Motive_State *before, const Motive_State *after);
