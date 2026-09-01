@@ -90,7 +90,7 @@ int initMotives(Entity entity, const Entity_Definition_Component *component)
         if (!parseFloat(component->arguments[2], &maxWeight)) {
             return 0;
         }
-
+        clamp(0.0f, 1.0f, &maxWeight);
         if (minWeight > maxWeight) {
             float temp = minWeight;
             minWeight = maxWeight;
