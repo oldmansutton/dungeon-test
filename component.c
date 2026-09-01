@@ -21,7 +21,7 @@ static const Component_Type_Name componentTypeNames[] = {
     {"POSITION", COMPONENT_POSITION},
     {"HEALTH", COMPONENT_HEALTH},
     {"ATTRIBUTES", COMPONENT_ATTRIBUTES},
-    {"MOTIVES", COMPONENT_MOTIVES},
+    {"MOTIVE", COMPONENT_MOTIVE},
     {"GENOME", COMPONENT_GENOME},
     {"NEURAL", COMPONENT_NEURAL}
 };
@@ -80,7 +80,7 @@ int initComponents(Entity entity, const Entity_Definition *definition) {
                 break;
             case COMPONENT_MOTIVES:
                 if (initMotives(entity, &definition->components[i])) {
-                    addComponent(entity, COMPONENT_MOTIVES);
+                    addComponent(entity, COMPONENT_MOTIVE);
                 } else {
                     return 0;
                 }

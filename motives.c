@@ -46,7 +46,7 @@ static void clamp(float min, float max, float *value) {
 
 const Motives *getMotives(Entity entity)
 {
-    if (!hasComponent(entity, COMPONENT_MOTIVES)) {
+    if (!hasComponent(entity, COMPONENT_MOTIVE)) {
         return NULL;
     }
     return &motives[entity];
