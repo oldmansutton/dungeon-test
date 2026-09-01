@@ -106,17 +106,6 @@ int initMotives(Entity entity, const Entity_Definition_Component *component)
     return 1;
 }
 
-float motivesGetReward(const Motives *motives, const Motive_State *before, const Motive_State *after) {
-    int i;
-    float reward = 0.0f;
-
-    for (i = 0; i < MOTIVE_COUNT; i++) {
-        reward += (after->state[i] - before->state[i]) * motives->weight[i];
-    }
-
-    return reward;
-}
-
 static float motivesEvaluateSelfPreservation(int health, int maxHealth, float threat) {
     float healthState, safetyState;
 
@@ -127,12 +116,3 @@ static float motivesEvaluateSelfPreservation(int health, int maxHealth, float th
     return healthState * safetyState;    
 }
 
-void motivesEvaluateState(int health, int maxHealth, float threat, Motive_State *state) {
-    int i;
-
-    for (i = 0; i < MOTIVE_COUNT; i++) {
-        state->state[i] = 0.0f;
-    }
-
-    state->state[MOTIVE_SELF_PRESERVATION] = motivesEvaluateSelfPreservation(health, maxHealth, threat);
-}
