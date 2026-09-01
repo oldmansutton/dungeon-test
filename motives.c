@@ -73,15 +73,13 @@ int initMotives(Entity entity, const Entity_Definition_Component *component)
     if (component->argumentCount < 2 || component->argumentCount > 3) {
         return 0;
     }
-
     if (!getMotiveType(component->arguments[0], &type)) {
         return 0;
     }
-
     if (!parseFloat(component->arguments[1], &minWeight)) {
         return 0;
     }
-
+    clamp(0.0f, 1.0f, &minWeight);
     if (component->argumentCount == 2) {
         weight = minWeight;
     } else {
@@ -97,11 +95,9 @@ int initMotives(Entity entity, const Entity_Definition_Component *component)
 
         weight = randFloat(minWeight, maxWeight);
     }
-
     if (weight < 0.0f || weight > 1.0f) {
         return 0;
     }
-
     motives[entity].weight[type] = weight;
     return 1;
 }

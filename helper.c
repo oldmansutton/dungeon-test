@@ -28,7 +28,7 @@ int randr(int min, int max)
 	return r;
 }
 
-float randFloat(float min float max)
+float randFloat(float min, float max)
 {
     return min + ((float)rand() / (float)RAND_MAX) * (max - min);
 }
