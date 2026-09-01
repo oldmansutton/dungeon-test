@@ -40,6 +40,7 @@ const Motives *getMotives(Entity entity);
 int getMotiveType(const char *name, MOTIVE_TYPE *type);
 const char *getMotiveName(int type);
 int initMotives(Entity entity, const Entity_Definition_Component *component);
-
+void initMotiveStates(Entity entity);
+void setMotiveState(Entity entity, MOTIVE_TYPE type, float state);
 
 #endif

@@ -116,3 +116,17 @@ static float motivesEvaluateSelfPreservation(int health, int maxHealth, float th
     return healthState * safetyState;    
 }
 
+void initMotiveStates(Entity entity)
+{
+    int i;
+
+    for (i = 0; i < MOTIVE_COUNT; i++) {
+        motives[entity].state[i] = 1.0f;
+    }
+}
+
+void setMotiveState(Entity entity, MOTIVE_TYPE type, float state)
+{
+    clamp(0.0f, 1.0f, &state);
+    motives[entity].state[type] = state;
+}
